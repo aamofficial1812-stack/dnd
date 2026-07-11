@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Debate &amp; Dialogue Club, AIKTC</title>
+<meta name="description" content="The story, vision, mission, and values behind the Debate & Dialogue Club at AIKTC.">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #1B2A5B;
+    --navy-deep: #121f45;
+    --gold: #E5C76B;
+    --gold-soft: #f0dd9d;
+    --cream: #F8F6F1;
+    --ink: #2F3645;
+    --rust: #C14A12;
+    --line: rgba(27,42,91,0.12);
+    --paper: #ffffff;
+
+    --serif: 'Cormorant Garamond', serif;
+    --sans: 'Manrope', sans-serif;
+    --mono: 'Space Grotesk', sans-serif;
+
+    --container: 1240px;
+    --gutter: clamp(24px, 5vw, 80px);
+    --section-pad: clamp(72px, 10vw, 160px);
+    --ease: cubic-bezier(.22,1,.36,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+  }
+  body{ margin:0; font-family:var(--sans); color:var(--ink); background:var(--cream); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  img{max-width:100%; display:block;}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer;}
+  h1,h2,h3,h4{font-family:var(--serif); margin:0; font-weight:600; color:var(--navy); letter-spacing:-0.01em;}
+  p{margin:0;}
+  .container{width:100%; max-width:var(--container); margin-inline:auto; padding-inline:var(--gutter);}
+  ::selection{background:var(--gold); color:var(--navy);}
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible{ outline:2px solid var(--rust); outline-offset:4px; border-radius:2px; }
+
+  .eyebrow{ display:inline-flex; align-items:center; gap:12px; font-family:var(--mono); font-size:12.5px; letter-spacing:0.22em; text-transform:uppercase; color:var(--rust); font-weight:600; }
+  .eyebrow::before{content:""; width:26px; height:1px; background:var(--rust);}
+  .eyebrow.on-dark{ color:var(--gold-soft); }
+  .eyebrow.on-dark::before{ background:var(--gold-soft); }
+
+  .btn{ position:relative; display:inline-flex; align-items:center; justify-content:center; gap:10px; font-family:var(--sans); font-weight:600; font-size:15px; padding:16px 34px; border-radius:2px; border:1px solid transparent; transition:transform .45s var(--ease), box-shadow .45s var(--ease), background .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease); overflow:hidden; isolation:isolate; white-space:nowrap; }
+  .btn span{position:relative; z-index:2;}
+  .btn-primary{ background:var(--gold); color:var(--navy-deep); }
+  .btn-primary::before{ content:""; position:absolute; inset:0; background:var(--rust); z-index:1; transform:translateY(101%); transition:transform .45s var(--ease); }
+  .btn-primary:hover::before{transform:translateY(0);}
+  .btn-primary:hover{color:#fff; transform:translateY(-3px); box-shadow:0 16px 30px -12px rgba(193,74,18,.55);}
+  .btn-ghost{ background:transparent; color:#fff; border-color:rgba(255,255,255,0.4); }
+  .btn-ghost:hover{ border-color:#fff; background:rgba(255,255,255,0.08); transform:translateY(-3px);}
+
+  .link-underline{ position:relative; font-weight:600; font-size:15px; color:var(--navy); padding-bottom:3px; }
+  .link-underline::after{ content:""; position:absolute; left:0; bottom:0; width:100%; height:1px; background:var(--navy); transform:scaleX(1); transform-origin:right; transition:transform .5s var(--ease); }
+  .link-underline:hover::after{ transform:scaleX(0.35); transform-origin:left; }
+
+  /* NAVBAR (shared) */
+  .navbar{ position:fixed; top:0; left:0; right:0; z-index:100; padding:14px 0; background:rgba(248,246,241,0.85); backdrop-filter:blur(18px) saturate(160%); -webkit-backdrop-filter:blur(18px) saturate(160%); box-shadow:0 1px 0 rgba(27,42,91,0.08), 0 20px 40px -30px rgba(27,42,91,0.35); transition:padding .4s var(--ease);}
+  .navbar .container{ display:flex; align-items:center; justify-content:space-between; }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand img{ height:38px; width:auto; }
+  .brand-text{ font-family:var(--serif); font-weight:600; font-size:17px; line-height:1.15; color:var(--navy); }
+  .brand-text small{ display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:0.18em; color:var(--gold); font-weight:600; margin-top:2px;}
+  .nav-links{ display:flex; align-items:center; gap:44px; }
+  .nav-links a:not(.btn){ font-size:14.5px; font-weight:600; color:var(--navy); position:relative; padding:4px 0; }
+  .nav-links a:not(.btn)::after{ content:""; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--gold); transition:width .4s var(--ease); }
+  .nav-links a:not(.btn):hover::after, .nav-links a.active::after{ width:100%; }
+  .nav-right{ display:flex; align-items:center; gap:28px; }
+  .navbar .btn-primary{ padding:12px 26px; font-size:13.5px; }
+  .hamburger{ display:none; flex-direction:column; gap:5px; width:26px; background:none; border:none; padding:8px; }
+  .hamburger span{ display:block; height:2px; width:100%; background:var(--navy); transition:all .35s var(--ease); }
+  .hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2){ opacity:0; }
+  .hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+  .mobile-menu{ position:fixed; inset:0; background:var(--navy); z-index:99; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:36px; transform:translateY(-100%); transition:transform .55s var(--ease); }
+  .mobile-menu.open{ transform:translateY(0); }
+  .mobile-menu a{ font-family:var(--serif); font-size:34px; color:var(--cream); font-weight:600; }
+  .mobile-menu a:hover{ color:var(--gold); }
+
+  .reveal{ opacity:0; transform:translateY(36px); transition:opacity .9s var(--ease), transform .9s var(--ease); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  .reveal-delay-1.in{ transition-delay:.1s; }
+  .reveal-delay-2.in{ transition-delay:.2s; }
+  .reveal-delay-3.in{ transition-delay:.3s; }
+
+  /* ============ ABOUT HERO ============ */
+  .page-hero{
+    position:relative; padding:clamp(180px,20vw,240px) 0 clamp(70px,9vw,110px);
+    background:var(--navy); color:#fff; overflow:hidden;
+  }
+  .page-hero::before{
+    content:""; position:absolute; inset:0;
+    background-image: repeating-linear-gradient(115deg, rgba(229,199,107,0.07) 0 2px, transparent 2px 40px);
+  }
+  .page-hero::after{
+    content:""; position:absolute; inset:0;
+    background: radial-gradient(900px 500px at 90% 0%, rgba(229,199,107,0.18), transparent 60%),
+                radial-gradient(700px 500px at 5% 100%, rgba(193,74,18,0.18), transparent 55%);
+  }
+  .page-hero .container{ position:relative; }
+  .breadcrumb{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; color:rgba(248,246,241,0.6); margin-bottom:22px; text-transform:uppercase; }
+  .breadcrumb a{ color:rgba(248,246,241,0.85); }
+  .breadcrumb a:hover{ color:var(--gold); }
+  .page-hero h1{ color:#fff; font-size:clamp(46px,7.5vw,96px); line-height:1.02; max-width:820px; }
+  .page-hero p{ margin-top:22px; max-width:560px; color:rgba(248,246,241,0.78); font-size:17px; line-height:1.7;}
+
+  /* ============ ALTERNATING SECTION FRAMEWORK ============ */
+  .split{ padding:var(--section-pad) 0; }
+  .split .container{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(40px,6vw,100px); align-items:center; }
+  .split.reverse .container{ direction:rtl; }
+  .split.reverse .container > *{ direction:ltr; }
+  .split-visual{ position:relative; aspect-ratio:4/5; }
+  .split-visual .frame{
+    position:absolute; inset:0; background:var(--navy); overflow:hidden;
+  }
+  .split-visual .frame.alt{ background:var(--rust); }
+  .split-visual .frame::before{
+    content:""; position:absolute; inset:0;
+    background: radial-gradient(circle at 25% 20%, rgba(229,199,107,0.32), transparent 45%),
+                radial-gradient(circle at 80% 90%, rgba(255,255,255,0.12), transparent 40%);
+    mix-blend-mode:screen;
+  }
+  .split-visual .big-mark{ position:absolute; bottom:24px; right:24px; font-family:var(--serif); font-size:110px; line-height:1; color:rgba(255,255,255,0.14); font-style:italic;}
+  .split-visual .corner{
+    position:absolute; width:64px; height:64px; border:1px solid var(--gold);
+  }
+  .split-visual .corner.tl{ top:-14px; left:-14px; border-right:none; border-bottom:none; }
+  .split-visual .corner.br{ bottom:-14px; right:-14px; border-left:none; border-top:none; }
+
+  .split-content h2{ font-size:clamp(32px,4vw,50px); line-height:1.08; margin-bottom:22px; }
+  .split-content p{ font-size:16.5px; line-height:1.85; color:var(--ink); opacity:0.86; margin-bottom:16px; }
+  .pull-quote{
+    font-family:var(--serif); font-style:italic; font-size:22px; line-height:1.5; color:var(--navy);
+    border-left:2px solid var(--gold); padding-left:22px; margin:26px 0;
+  }
+
+  #story{ background:var(--cream); }
+  #vision{ background:var(--paper); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  #mission{ background:var(--cream); }
+
+  /* ============ CORE VALUES ============ */
+  #values{ background:var(--navy); padding:var(--section-pad) 0; position:relative; overflow:hidden; }
+  #values::before{
+    content:""; position:absolute; inset:0;
+    background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size:26px 26px; opacity:0.5;
+  }
+  .values-head{ position:relative; text-align:center; max-width:640px; margin:0 auto clamp(50px,7vw,80px); }
+  .values-head h2{ color:#fff; font-size:clamp(32px,4vw,50px); margin-top:18px;}
+  .values-grid{ position:relative; display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.12); }
+  .value-chip{ background:var(--navy-deep); padding:36px 24px; color:#fff; transition:background .4s var(--ease); }
+  .value-chip:hover{ background:rgba(229,199,107,0.1); }
+  .value-chip .vn{ font-family:var(--mono); font-size:11px; color:var(--gold); letter-spacing:0.16em; margin-bottom:14px; display:block;}
+  .value-chip h3{ color:#fff; font-size:21px; margin-bottom:8px; }
+  .value-chip p{ font-size:13.5px; line-height:1.6; color:rgba(248,246,241,0.68); }
+
+  /* ============ LEADERSHIP PHILOSOPHY ============ */
+  #philosophy{ background:var(--paper); padding:var(--section-pad) 0; border-bottom:1px solid var(--line); }
+  .phil-grid{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:clamp(40px,6vw,90px); align-items:start; }
+  .phil-num{ font-family:var(--mono); font-size:120px; line-height:1; color:var(--gold-soft); font-weight:700; }
+  .phil-content h2{ font-size:clamp(30px,3.6vw,44px); margin-bottom:22px; line-height:1.1; }
+  .phil-list{ display:flex; flex-direction:column; gap:24px; margin-top:30px; }
+  .phil-item{ display:flex; gap:20px; padding-bottom:24px; border-bottom:1px solid var(--line); }
+  .phil-item:last-child{ border-bottom:none; padding-bottom:0; }
+  .phil-item .pi-mark{ font-family:var(--mono); font-size:13px; color:var(--rust); font-weight:700; flex-shrink:0; padding-top:4px;}
+  .phil-item h4{ font-size:19px; margin-bottom:6px; }
+  .phil-item p{ font-size:14.5px; line-height:1.7; color:var(--ink); opacity:0.78; }
+
+  /* ============ WHY JOIN ============ */
+  #why-join{ background:var(--cream); padding:var(--section-pad) 0; }
+  .why-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(30px,4vw,60px); margin-top:clamp(40px,6vw,70px);}
+  .why-card{
+    display:flex; gap:22px; padding:34px 0; border-top:1px solid var(--line);
+  }
+  .why-card .wn{ font-family:var(--mono); font-size:13px; color:var(--rust); font-weight:700; flex-shrink:0; padding-top:5px; }
+  .why-card h3{ font-size:22px; margin-bottom:8px; }
+  .why-card p{ font-size:14.5px; line-height:1.75; color:var(--ink); opacity:0.78; }
+
+  /* ============ TIMELINE ============ */
+  #timeline{ background:var(--paper); padding:var(--section-pad) 0; border-top:1px solid var(--line); }
+  .timeline-head{ text-align:center; max-width:600px; margin:0 auto clamp(50px,7vw,90px); }
+  .timeline{ position:relative; max-width:820px; margin-inline:auto; }
+  .timeline::before{ content:""; position:absolute; left:20px; top:6px; bottom:6px; width:1px; background:var(--line); }
+  .t-item{ position:relative; padding-left:64px; padding-bottom:56px; }
+  .t-item:last-child{ padding-bottom:0; }
+  .t-dot{ position:absolute; left:12px; top:4px; width:17px; height:17px; border-radius:50%; background:var(--paper); border:2px solid var(--gold); }
+  .t-item.active .t-dot{ background:var(--rust); border-color:var(--rust); }
+  .t-year{ font-family:var(--mono); font-size:13px; color:var(--rust); font-weight:700; letter-spacing:0.08em; margin-bottom:8px; display:block;}
+  .t-item h3{ font-size:24px; margin-bottom:8px; }
+  .t-item p{ font-size:15px; line-height:1.75; color:var(--ink); opacity:0.78; max-width:520px; }
+
+  /* ============ CTA STRIP ============ */
+  .cta-strip{ background:var(--navy-deep); color:#fff; text-align:center; padding:clamp(70px,9vw,120px) 0; position:relative; overflow:hidden;}
+  .cta-strip::before{ content:""; position:absolute; inset:0; background: radial-gradient(700px 400px at 20% 10%, rgba(229,199,107,0.16), transparent 60%), radial-gradient(700px 400px at 80% 90%, rgba(193,74,18,0.18), transparent 60%); }
+  .cta-strip .container{ position:relative; }
+  .cta-strip h2{ color:#fff; font-size:clamp(30px,4.4vw,52px); margin-bottom:20px; }
+  .cta-strip p{ color:rgba(248,246,241,0.78); font-size:16px; max-width:480px; margin-inline:auto; margin-bottom:32px; line-height:1.7;}
+
+  /* FOOTER (shared) */
+  footer.site-footer{ background:var(--navy); color:var(--cream); padding-top:clamp(60px,8vw,100px); }
+  .footer-top{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:48px; padding-bottom:60px; border-bottom:1px solid rgba(255,255,255,0.12);}
+  .footer-brand{ display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+  .footer-brand img{ height:46px; }
+  .footer-brand-text{ font-family:var(--serif); font-size:18px; font-weight:600; }
+  .footer-brand-text small{ display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:0.18em; color:var(--gold); margin-top:2px;}
+  .footer-col p{ font-size:14.5px; line-height:1.8; color:rgba(248,246,241,0.68); max-width:280px;}
+  .footer-col h4{ font-family:var(--mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); margin-bottom:22px; font-weight:600;}
+  .footer-col ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px;}
+  .footer-col a{ font-size:14.5px; color:rgba(248,246,241,0.78); transition:color .3s var(--ease), padding-left .3s var(--ease); }
+  .footer-col a:hover{ color:var(--gold); padding-left:6px; }
+  .footer-social{ display:flex; gap:12px; margin-top:22px;}
+  .footer-social a{ width:38px; height:38px; border:1px solid rgba(255,255,255,0.22); border-radius:50%; display:flex; align-items:center; justify-content:center; transition:all .35s var(--ease); }
+  .footer-social a:hover{ background:var(--gold); border-color:var(--gold); transform:translateY(-4px); }
+  .footer-social svg{ width:16px; height:16px; fill:currentColor; }
+  .footer-bottom{ display:flex; justify-content:space-between; align-items:center; padding:26px 0; flex-wrap:wrap; gap:12px; font-size:13px; color:rgba(248,246,241,0.55); }
+  .footer-bottom a{ color:rgba(248,246,241,0.55); }
+  .footer-bottom a:hover{ color:var(--gold); }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 1024px){
+    .nav-links{ display:none; }
+    .hamburger{ display:flex; }
+    .split .container{ grid-template-columns:1fr; }
+    .split.reverse .container{ direction:ltr; }
+    .split-visual{ max-width:380px; margin-inline:auto; }
+    .values-grid{ grid-template-columns:repeat(2,1fr); }
+    .phil-grid{ grid-template-columns:1fr; }
+    .phil-num{ font-size:80px; }
+    .why-grid{ grid-template-columns:1fr; }
+    .footer-top{ grid-template-columns:1fr 1fr; row-gap:40px; }
+  }
+  @media (max-width: 640px){
+    .values-grid{ grid-template-columns:1fr; }
+    .t-item{ padding-left:52px; }
+    .footer-top{ grid-template-columns:1fr; }
+    .footer-bottom{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header class="navbar" id="navbar">
+  <div class="container">
+    <a href="index.html" class="brand" aria-label="Debate & Dialogue Club home">
+      <img src="logo.png" alt="Debate & Dialogue Club, AIKTC logo">
+      <span class="brand-text">Debate &amp; Dialogue<small>AIKTC · EST. CLUB</small></span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="about.html" class="active">About</a>
+    </nav>
+    <div class="nav-right">
+      <a href="index.html#join" class="btn btn-primary"><span>Join Club</span></a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="index.html#join" class="btn btn-primary" style="color:var(--navy-deep);"><span>Join Club</span></a>
+</div>
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a> / About</div>
+      <h1>The case for<br>conversation.</h1>
+      <p>Every great decision in history began as an argument someone was willing to make out loud. This is the story of the club built to teach that courage.</p>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="split" id="story">
+    <div class="container">
+      <div class="split-visual reveal">
+        <div class="frame">
+          <span class="big-mark">01</span>
+        </div>
+        <span class="corner tl"></span>
+        <span class="corner br"></span>
+      </div>
+      <div class="split-content">
+        <span class="eyebrow reveal">Our Story</span>
+        <h2 class="reveal reveal-delay-1">Born from a single question no one could quite answer.</h2>
+        <p class="reveal reveal-delay-2">The Debate &amp; Dialogue Club began not in a lecture hall, but in a corridor argument that refused to end. A handful of students, unwilling to let a good disagreement go to waste, decided to give it a proper stage. What started as informal Friday discussions grew into AIKTC's home for structured debate, Model UN diplomacy, and public discourse.</p>
+        <p class="reveal reveal-delay-3">Today, the club carries that same restless curiosity — a conviction that every opinion deserves to be tested, and every student deserves the platform to test it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISION -->
+  <section class="split reverse" id="vision">
+    <div class="container">
+      <div class="split-visual reveal">
+        <div class="frame alt">
+          <span class="big-mark">02</span>
+        </div>
+        <span class="corner tl"></span>
+        <span class="corner br"></span>
+      </div>
+      <div class="split-content">
+        <span class="eyebrow reveal">Our Vision</span>
+        <h2 class="reveal reveal-delay-1">A campus where every voice has been trained to matter.</h2>
+        <p class="pull-quote reveal reveal-delay-2">"To cultivate confident communicators, critical thinkers, and future leaders through meaningful dialogue and intellectual excellence."</p>
+        <p class="reveal reveal-delay-3">We measure our success not in trophies alone, but in the quiet moment a first-year finally raises their hand — certain, for the first time, that their argument holds.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section class="split" id="mission">
+    <div class="container">
+      <div class="split-visual reveal">
+        <div class="frame">
+          <span class="big-mark">03</span>
+        </div>
+        <span class="corner tl"></span>
+        <span class="corner br"></span>
+      </div>
+      <div class="split-content">
+        <span class="eyebrow reveal">Our Mission</span>
+        <h2 class="reveal reveal-delay-1">Skills built on the floor, not just in the syllabus.</h2>
+        <p class="reveal reveal-delay-2">To provide an inclusive platform where students develop communication, leadership, analytical thinking, and public speaking skills through debates, discussions, workshops, and collaborative events.</p>
+        <p class="reveal reveal-delay-3">Every session is designed with one outcome in mind: members who leave more articulate, more curious, and more prepared to lead than when they walked in.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CORE VALUES -->
+  <section id="values">
+    <div class="container">
+      <div class="values-head">
+        <span class="eyebrow on-dark reveal">What We Stand For</span>
+        <h2 class="reveal reveal-delay-1">Core Values</h2>
+      </div>
+      <div class="values-grid">
+        <div class="value-chip reveal"><span class="vn">01</span><h3>Critical Thinking</h3><p>Question first, conclude second.</p></div>
+        <div class="value-chip reveal reveal-delay-1"><span class="vn">02</span><h3>Leadership</h3><p>Lead the room, not just the argument.</p></div>
+        <div class="value-chip reveal reveal-delay-2"><span class="vn">03</span><h3>Communication</h3><p>Say it clearly, or don't say it yet.</p></div>
+        <div class="value-chip reveal reveal-delay-3"><span class="vn">04</span><h3>Respect</h3><p>Disagree with the argument, not the person.</p></div>
+        <div class="value-chip reveal"><span class="vn">05</span><h3>Confidence</h3><p>Earned on the floor, not given at the door.</p></div>
+        <div class="value-chip reveal reveal-delay-1"><span class="vn">06</span><h3>Innovation</h3><p>The unconventional angle wins rounds.</p></div>
+        <div class="value-chip reveal reveal-delay-2"><span class="vn">07</span><h3>Collaboration</h3><p>Every great speaker had a great team.</p></div>
+        <div class="value-chip reveal reveal-delay-3"><span class="vn">08</span><h3>Integrity</h3><p>Win the argument honestly, or not at all.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEADERSHIP PHILOSOPHY -->
+  <section id="philosophy">
+    <div class="container">
+      <div class="phil-grid">
+        <div>
+          <span class="eyebrow reveal">Leadership Philosophy</span>
+          <div class="phil-num reveal reveal-delay-1">“</div>
+        </div>
+        <div class="phil-content">
+          <h2 class="reveal reveal-delay-1">We lead by handing the floor away, not holding onto it.</h2>
+          <p class="reveal reveal-delay-2" style="font-size:16.5px; line-height:1.85; opacity:0.86;">Our senior members are coaches first, captains second. Leadership at the Debate &amp; Dialogue Club means creating the conditions for someone else's best argument — not delivering your own.</p>
+          <div class="phil-list">
+            <div class="phil-item reveal">
+              <span class="pi-mark">→</span>
+              <div><h4>Mentorship over hierarchy</h4><p>Every senior member is paired with newcomers for one-on-one coaching, not command.</p></div>
+            </div>
+            <div class="phil-item reveal reveal-delay-1">
+              <span class="pi-mark">→</span>
+              <div><h4>Feedback as a gift</h4><p>Every round ends in structured, specific, kind critique — never a verdict without a reason.</p></div>
+            </div>
+            <div class="phil-item reveal reveal-delay-2">
+              <span class="pi-mark">→</span>
+              <div><h4>Earned responsibility</h4><p>Committee roles rotate by contribution and consistency, never by seniority alone.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY JOIN -->
+  <section id="why-join">
+    <div class="container">
+      <span class="eyebrow reveal">Why Join</span>
+      <h2 class="reveal reveal-delay-1" style="font-size:clamp(32px,4vw,50px); max-width:620px; margin-top:18px;">Four reasons students stay long after their first debate.</h2>
+      <div class="why-grid">
+        <div class="why-card reveal">
+          <span class="wn">01</span>
+          <div><h3>Real Stage Time</h3><p>Weekly rounds, inter-college tournaments, and MUN conferences — not just theory.</p></div>
+        </div>
+        <div class="why-card reveal reveal-delay-1">
+          <span class="wn">02</span>
+          <div><h3>A Genuine Community</h3><p>Friendships forged over shared nerves before every first speech.</p></div>
+        </div>
+        <div class="why-card reveal reveal-delay-2">
+          <span class="wn">03</span>
+          <div><h3>Transferable Skills</h3><p>Argumentation, research, and composure that outlast any single competition.</p></div>
+        </div>
+        <div class="why-card reveal reveal-delay-3">
+          <span class="wn">04</span>
+          <div><h3>A Track Record</h3><p>Alumni now leading in law, journalism, policy, and business.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section id="timeline">
+    <div class="container">
+      <div class="timeline-head">
+        <span class="eyebrow reveal">How We Got Here</span>
+        <h2 class="reveal reveal-delay-1" style="margin-top:18px;">Club Timeline</h2>
+      </div>
+      <div class="timeline">
+        <div class="t-item reveal">
+          <span class="t-dot"></span>
+          <span class="t-year">Year One</span>
+          <h3>The First Friday Session</h3>
+          <p>A dozen students, one classroom, and a debate about student council policy that ran two hours over.</p>
+        </div>
+        <div class="t-item reveal reveal-delay-1">
+          <span class="t-dot"></span>
+          <span class="t-year">Year Two</span>
+          <h3>First Inter-College Tournament</h3>
+          <p>The club fielded its first competitive team and returned with AIKTC's first debating trophy.</p>
+        </div>
+        <div class="t-item reveal reveal-delay-2">
+          <span class="t-dot"></span>
+          <span class="t-year">Year Four</span>
+          <h3>Model UN Launches</h3>
+          <p>Expansion beyond parliamentary debate into diplomacy, negotiation, and committee simulation.</p>
+        </div>
+        <div class="t-item reveal reveal-delay-3 active">
+          <span class="t-dot"></span>
+          <span class="t-year">Today</span>
+          <h3>150+ Members Strong</h3>
+          <p>A full calendar of debates, workshops, and competitions — and still growing every semester.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-strip">
+    <div class="container">
+      <span class="eyebrow on-dark reveal">Ready When You Are</span>
+      <h2 class="reveal reveal-delay-1">Come make your first argument.</h2>
+      <p class="reveal reveal-delay-2">Membership opens every semester. No experience necessary — just an opinion worth defending.</p>
+      <a href="index.html#join" class="btn btn-primary reveal reveal-delay-3"><span>Join the Club</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <img src="logo.png" alt="Debate & Dialogue Club logo">
+          <span class="footer-brand-text">Debate &amp; Dialogue<small>AIKTC</small></span>
+        </div>
+        <p>A student society dedicated to the art of argument, the discipline of dialogue, and the making of confident leaders.</p>
+        <div class="footer-social" aria-label="Social media links">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2c2.7 0 3.05.01 4.12.06 1.06.05 1.79.22 2.43.47a4.9 4.9 0 0 1 1.77 1.15 4.9 4.9 0 0 1 1.15 1.77c.25.64.42 1.37.47 2.43C21.99 8.95 22 9.3 22 12s-.01 3.05-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 0 1-1.15 1.77 4.9 4.9 0 0 1-1.77 1.15c-.64.25-1.37.42-2.43.47C15.05 21.99 14.7 22 12 22s-3.05-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15.05 2 14.7 2 12s.01-3.05.06-4.12c.05-1.06.22-1.79.47-2.43a4.9 4.9 0 0 1 1.15-1.77A4.9 4.9 0 0 1 5.45 2.53c.64-.25 1.37-.42 2.43-.47C8.95 2.01 9.3 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.4-8.4a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4z"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3.5a1.96 1.96 0 1 0 0 3.92 1.96 1.96 0 0 0 0-3.92zM20.44 20h-3.37v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V20H9.68V8.5h3.24v1.57h.05c.45-.85 1.56-1.75 3.21-1.75 3.43 0 4.26 2.26 4.26 5.2V20z"/></svg></a>
+          <a href="#" aria-label="X (Twitter)"><svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.5 8.6L23.3 22h-6.9l-5.4-6.9L4.7 22H1.6l8.1-9.2L1 2h7l4.9 6.3L18.9 2zm-1.2 18h1.9L7.4 3.9H5.4L17.7 20z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="index.html#join">Join Club</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:debateclub@aiktc.ac.in">debateclub@aiktc.ac.in</a></li>
+          <li><a href="tel:+910000000000">+91 00000 00000</a></li>
+          <li><a href="#">AIKTC Campus, Panvel</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#story">Our Story</a></li>
+          <li><a href="#timeline">Timeline</a></li>
+          <li><a href="#values">Core Values</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Debate &amp; Dialogue Club, AIKTC. All rights reserved.</span>
+      <span>Crafted with conviction.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', false);
+    document.body.style.overflow = '';
+  }));
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealEls = document.querySelectorAll('.reveal');
+  if(reduceMotion){
+    revealEls.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+  }
+</script>
+</body>
+</html>
