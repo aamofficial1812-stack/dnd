@@ -56,6 +56,59 @@
 
   ::selection{background:var(--gold); color:var(--navy);}
 
+  /* ============ PRELOADER ============ */
+  .preloader{
+    position:fixed; inset:0; z-index:999; background:var(--navy);
+    display:flex; align-items:center; justify-content:center;
+    transition:opacity .8s var(--ease), visibility .8s var(--ease);
+  }
+  .preloader::before{
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(600px 400px at 50% 50%, rgba(229,199,107,0.14), transparent 65%);
+  }
+  .preloader.done{ opacity:0; visibility:hidden; pointer-events:none; }
+  .preloader-mark{ position:relative; display:flex; flex-direction:column; align-items:center; gap:18px; }
+  .preloader-mark img{ height:64px; width:auto; animation:pl-pulse 1.6s ease-in-out infinite; }
+  .preloader-bar{ width:160px; height:1px; background:rgba(255,255,255,0.18); overflow:hidden; position:relative; }
+  .preloader-bar::after{
+    content:""; position:absolute; top:0; left:-40%; width:40%; height:100%; background:var(--gold);
+    animation:pl-sweep 1.1s ease-in-out infinite;
+  }
+  @keyframes pl-pulse{ 0%,100%{ opacity:1; transform:scale(1);} 50%{ opacity:.6; transform:scale(.94);} }
+  @keyframes pl-sweep{ 0%{ left:-40%; } 100%{ left:100%; } }
+
+  /* ============ SCROLL PROGRESS ============ */
+  .scroll-progress{
+    position:fixed; top:0; left:0; height:2px; width:0%; z-index:200;
+    background:linear-gradient(90deg, var(--gold), var(--rust));
+    transition:width .1s linear;
+  }
+
+  /* ============ GRAIN ============ */
+  .grain{
+    position:fixed; inset:0; z-index:150; pointer-events:none; opacity:0.035; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ============ CUSTOM CURSOR (desktop / fine pointer only) ============ */
+  @media (hover:hover) and (pointer:fine){
+    .cursor-dot, .cursor-ring{
+      position:fixed; top:0; left:0; z-index:300; pointer-events:none;
+      transform:translate(-50%,-50%); will-change:transform;
+    }
+    .cursor-dot{ width:6px; height:6px; border-radius:50%; background:var(--gold); }
+    .cursor-ring{
+      width:36px; height:36px; border-radius:50%; border:1px solid rgba(229,199,107,0.55);
+      transition:width .3s var(--ease), height .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease);
+    }
+    .cursor-ring.hovering{ width:64px; height:64px; background:rgba(229,199,107,0.08); border-color:var(--gold); }
+    body{ cursor:none; }
+    a, button, .pillar-card, .value-chip{ cursor:none; }
+  }
+  @media (hover:none), (pointer:coarse){
+    .cursor-dot, .cursor-ring{ display:none; }
+  }
+
   a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
     outline:2px solid var(--rust);
     outline-offset:4px;
@@ -97,6 +150,31 @@
   .btn-ghost:hover{ border-color:#fff; background:rgba(255,255,255,0.08); transform:translateY(-3px);}
   .btn-dark{ background:var(--navy); color:var(--cream); }
   .btn-dark:hover{ transform:translateY(-3px); box-shadow:0 16px 30px -12px rgba(27,42,91,.45); background:var(--navy-deep);}
+  .magnetic{ display:inline-block; }
+
+  /* Spotlight cursor-follow glow used on cards */
+  .spotlight{ position:relative; }
+  .spotlight::before{
+    content:""; position:absolute; inset:0; z-index:0; opacity:0; pointer-events:none;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(229,199,107,0.16), transparent 70%);
+    transition:opacity .4s var(--ease);
+  }
+  .spotlight:hover::before{ opacity:1; }
+  .spotlight > *{ position:relative; z-index:1; }
+
+  /* ============ MARQUEE TICKER ============ */
+  .marquee-strip{
+    background:var(--navy); overflow:hidden; padding:20px 0; border-top:1px solid rgba(255,255,255,0.1); border-bottom:1px solid rgba(255,255,255,0.1);
+    white-space:nowrap;
+  }
+  .marquee-track{ display:inline-flex; align-items:center; gap:0; animation:marquee 32s linear infinite; }
+  .marquee-strip:hover .marquee-track{ animation-play-state:paused; }
+  .marquee-track span.mq-item{
+    font-family:var(--serif); font-style:italic; font-size:clamp(18px,2.4vw,26px); color:rgba(248,246,241,0.85);
+    padding:0 36px; flex-shrink:0;
+  }
+  .marquee-track span.mq-dot{ color:var(--gold); font-size:10px; padding:0; flex-shrink:0; }
+  @keyframes marquee{ 0%{ transform:translateX(0); } 100%{ transform:translateX(-50%); } }
 
   .link-underline{
     position:relative; font-weight:600; font-size:15px; color:var(--navy);
@@ -122,11 +200,11 @@
     -webkit-backdrop-filter:blur(18px) saturate(160%);
     box-shadow:0 1px 0 rgba(27,42,91,0.08), 0 20px 40px -30px rgba(27,42,91,0.35);
   }
-  .brand{ display:flex; align-items:center; gap:12px; }
-  .brand img{ height:44px; width:auto; transition:height .4s var(--ease); }
+  .brand{ display:flex; align-items:center; gap:12px; min-width:0; flex-shrink:1; }
+  .brand img{ height:44px; width:auto; flex-shrink:0; transition:height .4s var(--ease); }
   .navbar.scrolled .brand img{ height:38px; }
-  .brand-text{ font-family:var(--serif); font-weight:600; font-size:17px; line-height:1.15; color:#fff; transition:color .4s var(--ease);}
-  .brand-text small{ display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:0.18em; color:var(--gold); font-weight:600; margin-top:2px;}
+  .brand-text{ font-family:var(--serif); font-weight:600; font-size:17px; line-height:1.15; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; transition:color .4s var(--ease);}
+  .brand-text small{ display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:0.18em; color:var(--gold); font-weight:600; margin-top:2px; white-space:nowrap;}
   .navbar.scrolled .brand-text{ color:var(--navy); }
 
   .nav-links{ display:flex; align-items:center; gap:44px; }
@@ -142,11 +220,11 @@
   .nav-links a:not(.btn):hover::after{ width:100%; }
   .nav-links a.active::after{ width:100%; }
 
-  .nav-right{ display:flex; align-items:center; gap:28px; }
+  .nav-right{ display:flex; align-items:center; gap:28px; flex-shrink:0; }
   .navbar .btn-primary{ padding:12px 26px; font-size:13.5px; }
 
   .hamburger{
-    display:none; flex-direction:column; gap:5px; width:26px; background:none; border:none; padding:8px;
+    display:none; flex-direction:column; gap:5px; width:26px; background:none; border:none; padding:8px; flex-shrink:0;
   }
   .hamburger span{ display:block; height:2px; width:100%; background:#fff; transition:all .35s var(--ease); }
   .navbar.scrolled .hamburger span{ background:var(--navy); }
@@ -176,6 +254,11 @@
       linear-gradient(180deg, rgba(18,31,69,0.55) 0%, rgba(18,31,69,0.35) 30%, rgba(18,31,69,0.72) 78%, rgba(18,31,69,0.92) 100%),
       radial-gradient(1100px 700px at 88% 6%, rgba(229,199,107,0.20), transparent 60%);
   }
+  .hero-orb{ position:absolute; z-index:1; border-radius:50%; filter:blur(60px); pointer-events:none; opacity:0.5; }
+  .hero-orb.o1{ width:340px; height:340px; right:8%; top:10%; background:radial-gradient(circle, rgba(229,199,107,0.5), transparent 70%); animation:orbfloat 13s ease-in-out infinite; }
+  .hero-orb.o2{ width:260px; height:260px; left:6%; bottom:14%; background:radial-gradient(circle, rgba(193,74,18,0.4), transparent 70%); animation:orbfloat 16s ease-in-out infinite reverse; }
+  @keyframes orbfloat{ 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(-24px,28px) scale(1.12); } }
+  @media (prefers-reduced-motion: reduce){ .hero-orb{ animation:none; } }
   .hero-content{
     position:relative; z-index:2; width:100%;
     padding-bottom:clamp(64px, 9vw, 120px);
@@ -299,6 +382,7 @@
   .pillar-card:hover p{ color:var(--cream); opacity:0.75; }
   .pillar-card:hover .pillar-icon{ color:var(--gold); transform:translateY(-6px) rotate(-4deg); }
   .pillar-card:hover .pillar-num{ color:var(--gold); }
+  .tilt{ transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(0); transition:transform .35s var(--ease), background .5s var(--ease); }
 
   /* ============ SECTION: STATS ============ */
   .stats{ background:var(--navy); position:relative; padding:clamp(70px,9vw,130px) 0; overflow:hidden;}
@@ -381,11 +465,41 @@
     .footer-top{ grid-template-columns:1fr; }
     .footer-bottom{ flex-direction:column; align-items:flex-start; }
   }
+  /* Navbar: prevent logo / wordmark / CTA / hamburger from crowding on narrow phones */
+  @media (max-width: 560px){
+    .navbar{ padding:16px 0; }
+    .navbar.scrolled{ padding:12px 0; }
+    .nav-right{ gap:14px; }
+    .navbar .btn-primary{ padding:10px 16px; font-size:12.5px; }
+  }
+  @media (max-width: 430px){
+    .navbar .nav-right .btn-primary{ display:none; }
+  }
+  @media (max-width: 380px){
+    .brand-text small{ display:none; }
+    .brand-text{ font-size:15px; }
+  }
+  @media (max-width: 330px){
+    .brand-text{ display:none; }
+  }
 </style>
 </head>
 <body>
 
 <a href="#main" class="visually-hidden" style="position:absolute; left:-999px; top:auto;">Skip to content</a>
+
+<!-- ============ PRELOADER ============ -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader-mark">
+    <img src="logo.png" alt="">
+    <div class="preloader-bar"></div>
+  </div>
+</div>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 
 <!-- ============ NAVBAR ============ -->
 <header class="navbar" id="navbar">
@@ -399,7 +513,7 @@
       <a href="about.html">About</a>
     </nav>
     <div class="nav-right">
-      <a href="#join" class="btn btn-primary"><span>Join Club</span></a>
+      <a href="form.html" class="btn btn-primary"><span>Join Club</span></a>
       <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
         <span></span><span></span><span></span>
       </button>
@@ -410,7 +524,8 @@
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html">Home</a>
   <a href="about.html">About</a>
-  <a href="#join" class="btn btn-primary" style="color:var(--navy-deep);"><span>Join Club</span></a>
+  <a href="form.html">Join</a>
+  <a href="form.html" class="btn btn-primary" style="color:var(--navy-deep);"><span>Join Club</span></a>
 </div>
 
 <main id="main">
@@ -421,8 +536,10 @@
         <source src="video.mp4" type="video/mp4">
       </video>
     </div>
+    <div class="hero-orb o1" aria-hidden="true"></div>
+    <div class="hero-orb o2" aria-hidden="true"></div>
 
-    <div class="motion-card reveal" aria-hidden="true">
+    <div class="motion-card spotlight tilt reveal" aria-hidden="true">
       <span class="mc-label">Motion of the Term</span>
       <p class="mc-body">"This House believes dialogue is the sharpest instrument of change."</p>
       <div class="mc-foot"><span>PROP. vs OPP.</span><span>№ 04</span></div>
@@ -438,7 +555,7 @@
         </h1>
         <p class="desc">Where ideas challenge perspectives, conversations inspire change, and future leaders discover the confidence to make an impact.</p>
         <div class="hero-actions">
-          <a href="#join" class="btn btn-primary"><span>Join Club</span></a>
+          <a href="form.html" class="btn btn-primary"><span>Join Club</span></a>
           <a href="#about-preview" class="btn btn-ghost"><span>Learn More</span></a>
         </div>
       </div>
@@ -449,6 +566,22 @@
       <span>Scroll</span>
     </div>
   </section>
+
+  <!-- ============ MARQUEE TICKER ============ -->
+  <div class="marquee-strip" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="mq-item">Motion Carries</span><span class="mq-dot">●</span>
+      <span class="mq-item">Public Speaking</span><span class="mq-dot">●</span>
+      <span class="mq-item">Model United Nations</span><span class="mq-dot">●</span>
+      <span class="mq-item">Structured Debate</span><span class="mq-dot">●</span>
+      <span class="mq-item">Leadership</span><span class="mq-dot">●</span>
+      <span class="mq-item">Motion Carries</span><span class="mq-dot">●</span>
+      <span class="mq-item">Public Speaking</span><span class="mq-dot">●</span>
+      <span class="mq-item">Model United Nations</span><span class="mq-dot">●</span>
+      <span class="mq-item">Structured Debate</span><span class="mq-dot">●</span>
+      <span class="mq-item">Leadership</span><span class="mq-dot">●</span>
+    </div>
+  </div>
 
   <!-- ============ ABOUT PREVIEW ============ -->
   <section class="about-preview" id="about-preview">
@@ -476,25 +609,25 @@
         <p class="reveal reveal-delay-1">Four disciplines. One purpose — building confident, articulate, principled voices.</p>
       </div>
       <div class="pillar-grid">
-        <article class="pillar-card reveal">
+        <article class="pillar-card spotlight tilt reveal">
           <span class="pillar-num">01</span>
           <svg class="pillar-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="18" y="6" width="12" height="20" rx="6"/><path d="M12 22a12 12 0 0 0 24 0"/><path d="M24 34v8"/><path d="M17 42h14"/></svg>
           <h3>Public Speaking</h3>
           <p>Command a room with clarity and poise — from first speech to keynote address.</p>
         </article>
-        <article class="pillar-card reveal reveal-delay-1">
+        <article class="pillar-card spotlight tilt reveal reveal-delay-1">
           <span class="pillar-num">02</span>
           <svg class="pillar-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M24 6v34"/><path d="M8 14l-6 12a7 7 0 0 0 14 0z"/><path d="M40 14l-6 12a7 7 0 0 0 14 0z"/><path d="M8 14l16-6 16 6"/><path d="M14 42h20"/></svg>
           <h3>Debates</h3>
           <p>Argue both sides of the toughest motions with evidence, wit, and structure.</p>
         </article>
-        <article class="pillar-card reveal reveal-delay-2">
+        <article class="pillar-card spotlight tilt reveal reveal-delay-2">
           <span class="pillar-num">03</span>
           <svg class="pillar-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="24" cy="24" r="17"/><path d="M7 24h34"/><path d="M24 7c5 5 5 29 0 34-5-5-5-29 0-34z"/></svg>
           <h3>Model UN</h3>
           <p>Represent nations, negotiate resolutions, and navigate global diplomacy.</p>
         </article>
-        <article class="pillar-card reveal reveal-delay-3">
+        <article class="pillar-card spotlight tilt reveal reveal-delay-3">
           <span class="pillar-num">04</span>
           <svg class="pillar-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="24" cy="24" r="4"/><path d="M24 4v6M24 38v6M4 24h6M38 24h6M9.5 9.5l4.5 4.5M34 34l4.5 4.5M9.5 38.5l4.5-4.5M34 14l4.5-4.5"/></svg>
           <h3>Leadership</h3>
@@ -562,7 +695,7 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
-          <li><a href="#join">Join Club</a></li>
+          <li><a href="form.html">Join Club</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -590,19 +723,83 @@
 </footer>
 
 <script>
-  // Navbar scroll state
+  const reduceMotion0 = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Preloader
+  window.addEventListener('load', () => {
+    const pre = document.getElementById('preloader');
+    setTimeout(() => { pre.classList.add('done'); document.getElementById('hero').classList.add('loaded'); }, reduceMotion0 ? 0 : 500);
+  });
+
+  // Navbar scroll state + scroll progress bar
   const navbar = document.getElementById('navbar');
+  const progressBar = document.getElementById('scrollProgress');
   const onScroll = () => {
     if(window.scrollY > 40){ navbar.classList.add('scrolled'); }
     else{ navbar.classList.remove('scrolled'); }
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+    progressBar.style.width = pct + '%';
   };
   document.addEventListener('scroll', onScroll, { passive:true });
   onScroll();
 
-  // Hero load animation
-  window.addEventListener('load', () => {
-    document.getElementById('hero').classList.add('loaded');
-  });
+  // Custom cursor (desktop, fine pointer only)
+  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let rx = 0, ry = 0, tx = 0, ty = 0;
+    document.addEventListener('mousemove', (e) => {
+      dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%,-50%)`;
+      tx = e.clientX; ty = e.clientY;
+    });
+    const animRing = () => {
+      rx += (tx - rx) * 0.18; ry += (ty - ry) * 0.18;
+      ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+      requestAnimationFrame(animRing);
+    };
+    animRing();
+    document.querySelectorAll('a, button, .pillar-card, .value-chip').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+    });
+
+    // Magnetic buttons
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const r = btn.getBoundingClientRect();
+        const mx = e.clientX - r.left - r.width/2;
+        const my = e.clientY - r.top - r.height/2;
+        btn.style.transform = `translate(${mx*0.18}px, ${my*0.35}px)`;
+      });
+      btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+    });
+
+    // Spotlight glow tracking
+    document.querySelectorAll('.spotlight').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+      });
+    });
+
+    // 3D tilt
+    document.querySelectorAll('.tilt').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.setProperty('--ry', (px * 10) + 'deg');
+        card.style.setProperty('--rx', (py * -10) + 'deg');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.setProperty('--rx', '0deg');
+        card.style.setProperty('--ry', '0deg');
+      });
+    });
+  }
 
   // Mobile menu
   const hamburger = document.getElementById('hamburger');
