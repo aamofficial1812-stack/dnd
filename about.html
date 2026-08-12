@@ -46,6 +46,41 @@
   ::selection{background:var(--gold); color:var(--navy);}
   a:focus-visible, button:focus-visible, [tabindex]:focus-visible{ outline:2px solid var(--rust); outline-offset:4px; border-radius:2px; }
 
+  /* ============ PRELOADER ============ */
+  .preloader{ position:fixed; inset:0; z-index:999; background:var(--navy); display:flex; align-items:center; justify-content:center; transition:opacity .8s var(--ease), visibility .8s var(--ease); }
+  .preloader::before{ content:""; position:absolute; inset:0; background:radial-gradient(600px 400px at 50% 50%, rgba(229,199,107,0.14), transparent 65%); }
+  .preloader.done{ opacity:0; visibility:hidden; pointer-events:none; }
+  .preloader-mark{ position:relative; display:flex; flex-direction:column; align-items:center; gap:18px; }
+  .preloader-mark img{ height:64px; width:auto; animation:pl-pulse 1.6s ease-in-out infinite; }
+  .preloader-bar{ width:160px; height:1px; background:rgba(255,255,255,0.18); overflow:hidden; position:relative; }
+  .preloader-bar::after{ content:""; position:absolute; top:0; left:-40%; width:40%; height:100%; background:var(--gold); animation:pl-sweep 1.1s ease-in-out infinite; }
+  @keyframes pl-pulse{ 0%,100%{ opacity:1; transform:scale(1);} 50%{ opacity:.6; transform:scale(.94);} }
+  @keyframes pl-sweep{ 0%{ left:-40%; } 100%{ left:100%; } }
+
+  /* ============ SCROLL PROGRESS ============ */
+  .scroll-progress{ position:fixed; top:0; left:0; height:2px; width:0%; z-index:200; background:linear-gradient(90deg, var(--gold), var(--rust)); transition:width .1s linear; }
+
+  /* ============ GRAIN ============ */
+  .grain{ position:fixed; inset:0; z-index:150; pointer-events:none; opacity:0.035; mix-blend-mode:overlay; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+  /* ============ CUSTOM CURSOR ============ */
+  @media (hover:hover) and (pointer:fine){
+    .cursor-dot, .cursor-ring{ position:fixed; top:0; left:0; z-index:300; pointer-events:none; transform:translate(-50%,-50%); will-change:transform; }
+    .cursor-dot{ width:6px; height:6px; border-radius:50%; background:var(--gold); }
+    .cursor-ring{ width:36px; height:36px; border-radius:50%; border:1px solid rgba(229,199,107,0.55); transition:width .3s var(--ease), height .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease); }
+    .cursor-ring.hovering{ width:64px; height:64px; background:rgba(229,199,107,0.08); border-color:var(--gold); }
+    body{ cursor:none; }
+    a, button, .value-chip, .why-card, .split-visual{ cursor:none; }
+  }
+  @media (hover:none), (pointer:coarse){ .cursor-dot, .cursor-ring{ display:none; } }
+
+  .magnetic{ display:inline-block; }
+  .spotlight{ position:relative; }
+  .spotlight::before{ content:""; position:absolute; inset:0; z-index:0; opacity:0; pointer-events:none; background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(229,199,107,0.16), transparent 70%); transition:opacity .4s var(--ease); }
+  .spotlight:hover::before{ opacity:1; }
+  .spotlight > *{ position:relative; z-index:1; }
+  .tilt{ transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(0); transition:transform .35s var(--ease); }
+
   .eyebrow{ display:inline-flex; align-items:center; gap:12px; font-family:var(--mono); font-size:12.5px; letter-spacing:0.22em; text-transform:uppercase; color:var(--rust); font-weight:600; }
   .eyebrow::before{content:""; width:26px; height:1px; background:var(--rust);}
   .eyebrow.on-dark{ color:var(--gold-soft); }
@@ -67,17 +102,17 @@
   /* NAVBAR (shared) */
   .navbar{ position:fixed; top:0; left:0; right:0; z-index:100; padding:14px 0; background:rgba(248,246,241,0.85); backdrop-filter:blur(18px) saturate(160%); -webkit-backdrop-filter:blur(18px) saturate(160%); box-shadow:0 1px 0 rgba(27,42,91,0.08), 0 20px 40px -30px rgba(27,42,91,0.35); transition:padding .4s var(--ease);}
   .navbar .container{ display:flex; align-items:center; justify-content:space-between; }
-  .brand{ display:flex; align-items:center; gap:12px; }
-  .brand img{ height:38px; width:auto; }
-  .brand-text{ font-family:var(--serif); font-weight:600; font-size:17px; line-height:1.15; color:var(--navy); }
-  .brand-text small{ display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:0.18em; color:var(--gold); font-weight:600; margin-top:2px;}
+  .brand{ display:flex; align-items:center; gap:12px; min-width:0; flex-shrink:1; }
+  .brand img{ height:38px; width:auto; flex-shrink:0; }
+  .brand-text{ font-family:var(--serif); font-weight:600; font-size:17px; line-height:1.15; color:var(--navy); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .brand-text small{ display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:0.18em; color:var(--gold); font-weight:600; margin-top:2px; white-space:nowrap;}
   .nav-links{ display:flex; align-items:center; gap:44px; }
   .nav-links a:not(.btn){ font-size:14.5px; font-weight:600; color:var(--navy); position:relative; padding:4px 0; }
   .nav-links a:not(.btn)::after{ content:""; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--gold); transition:width .4s var(--ease); }
   .nav-links a:not(.btn):hover::after, .nav-links a.active::after{ width:100%; }
-  .nav-right{ display:flex; align-items:center; gap:28px; }
+  .nav-right{ display:flex; align-items:center; gap:28px; flex-shrink:0; }
   .navbar .btn-primary{ padding:12px 26px; font-size:13.5px; }
-  .hamburger{ display:none; flex-direction:column; gap:5px; width:26px; background:none; border:none; padding:8px; }
+  .hamburger{ display:none; flex-direction:column; gap:5px; width:26px; background:none; border:none; padding:8px; flex-shrink:0; }
   .hamburger span{ display:block; height:2px; width:100%; background:var(--navy); transition:all .35s var(--ease); }
   .hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
   .hamburger.open span:nth-child(2){ opacity:0; }
@@ -245,9 +280,36 @@
     .footer-top{ grid-template-columns:1fr; }
     .footer-bottom{ flex-direction:column; align-items:flex-start; }
   }
+  /* Navbar: prevent logo / wordmark / CTA / hamburger from crowding on narrow phones */
+  @media (max-width: 560px){
+    .navbar{ padding:12px 0; }
+    .nav-right{ gap:14px; }
+    .navbar .btn-primary{ padding:10px 16px; font-size:12.5px; }
+  }
+  @media (max-width: 430px){
+    .navbar .nav-right .btn-primary{ display:none; }
+  }
+  @media (max-width: 380px){
+    .brand-text small{ display:none; }
+    .brand-text{ font-size:15px; }
+  }
+  @media (max-width: 330px){
+    .brand-text{ display:none; }
+  }
 </style>
 </head>
 <body>
+
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader-mark">
+    <img src="logo.png" alt="">
+    <div class="preloader-bar"></div>
+  </div>
+</div>
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 
 <header class="navbar" id="navbar">
   <div class="container">
@@ -260,7 +322,7 @@
       <a href="about.html" class="active">About</a>
     </nav>
     <div class="nav-right">
-      <a href="index.html#join" class="btn btn-primary"><span>Join Club</span></a>
+      <a href="form.html" class="btn btn-primary"><span>Join Club</span></a>
       <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
         <span></span><span></span><span></span>
       </button>
@@ -271,7 +333,8 @@
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html">Home</a>
   <a href="about.html">About</a>
-  <a href="index.html#join" class="btn btn-primary" style="color:var(--navy-deep);"><span>Join Club</span></a>
+  <a href="form.html">Join</a>
+  <a href="form.html" class="btn btn-primary" style="color:var(--navy-deep);"><span>Join Club</span></a>
 </div>
 
 <main id="main">
@@ -287,7 +350,7 @@
   <!-- STORY -->
   <section class="split" id="story">
     <div class="container">
-      <div class="split-visual reveal">
+      <div class="split-visual spotlight tilt reveal">
         <div class="frame">
           <span class="big-mark">01</span>
         </div>
@@ -306,7 +369,7 @@
   <!-- VISION -->
   <section class="split reverse" id="vision">
     <div class="container">
-      <div class="split-visual reveal">
+      <div class="split-visual spotlight tilt reveal">
         <div class="frame alt">
           <span class="big-mark">02</span>
         </div>
@@ -325,7 +388,7 @@
   <!-- MISSION -->
   <section class="split" id="mission">
     <div class="container">
-      <div class="split-visual reveal">
+      <div class="split-visual spotlight tilt reveal">
         <div class="frame">
           <span class="big-mark">03</span>
         </div>
@@ -349,14 +412,14 @@
         <h2 class="reveal reveal-delay-1">Core Values</h2>
       </div>
       <div class="values-grid">
-        <div class="value-chip reveal"><span class="vn">01</span><h3>Critical Thinking</h3><p>Question first, conclude second.</p></div>
-        <div class="value-chip reveal reveal-delay-1"><span class="vn">02</span><h3>Leadership</h3><p>Lead the room, not just the argument.</p></div>
-        <div class="value-chip reveal reveal-delay-2"><span class="vn">03</span><h3>Communication</h3><p>Say it clearly, or don't say it yet.</p></div>
-        <div class="value-chip reveal reveal-delay-3"><span class="vn">04</span><h3>Respect</h3><p>Disagree with the argument, not the person.</p></div>
-        <div class="value-chip reveal"><span class="vn">05</span><h3>Confidence</h3><p>Earned on the floor, not given at the door.</p></div>
-        <div class="value-chip reveal reveal-delay-1"><span class="vn">06</span><h3>Innovation</h3><p>The unconventional angle wins rounds.</p></div>
-        <div class="value-chip reveal reveal-delay-2"><span class="vn">07</span><h3>Collaboration</h3><p>Every great speaker had a great team.</p></div>
-        <div class="value-chip reveal reveal-delay-3"><span class="vn">08</span><h3>Integrity</h3><p>Win the argument honestly, or not at all.</p></div>
+        <div class="value-chip spotlight reveal"><span class="vn">01</span><h3>Critical Thinking</h3><p>Question first, conclude second.</p></div>
+        <div class="value-chip spotlight reveal reveal-delay-1"><span class="vn">02</span><h3>Leadership</h3><p>Lead the room, not just the argument.</p></div>
+        <div class="value-chip spotlight reveal reveal-delay-2"><span class="vn">03</span><h3>Communication</h3><p>Say it clearly, or don't say it yet.</p></div>
+        <div class="value-chip spotlight reveal reveal-delay-3"><span class="vn">04</span><h3>Respect</h3><p>Disagree with the argument, not the person.</p></div>
+        <div class="value-chip spotlight reveal"><span class="vn">05</span><h3>Confidence</h3><p>Earned on the floor, not given at the door.</p></div>
+        <div class="value-chip spotlight reveal reveal-delay-1"><span class="vn">06</span><h3>Innovation</h3><p>The unconventional angle wins rounds.</p></div>
+        <div class="value-chip spotlight reveal reveal-delay-2"><span class="vn">07</span><h3>Collaboration</h3><p>Every great speaker had a great team.</p></div>
+        <div class="value-chip spotlight reveal reveal-delay-3"><span class="vn">08</span><h3>Integrity</h3><p>Win the argument honestly, or not at all.</p></div>
       </div>
     </div>
   </section>
@@ -397,19 +460,19 @@
       <span class="eyebrow reveal">Why Join</span>
       <h2 class="reveal reveal-delay-1" style="font-size:clamp(32px,4vw,50px); max-width:620px; margin-top:18px;">Four reasons students stay long after their first debate.</h2>
       <div class="why-grid">
-        <div class="why-card reveal">
+        <div class="why-card spotlight reveal">
           <span class="wn">01</span>
           <div><h3>Real Stage Time</h3><p>Weekly rounds, inter-college tournaments, and MUN conferences — not just theory.</p></div>
         </div>
-        <div class="why-card reveal reveal-delay-1">
+        <div class="why-card spotlight reveal reveal-delay-1">
           <span class="wn">02</span>
           <div><h3>A Genuine Community</h3><p>Friendships forged over shared nerves before every first speech.</p></div>
         </div>
-        <div class="why-card reveal reveal-delay-2">
+        <div class="why-card spotlight reveal reveal-delay-2">
           <span class="wn">03</span>
           <div><h3>Transferable Skills</h3><p>Argumentation, research, and composure that outlast any single competition.</p></div>
         </div>
-        <div class="why-card reveal reveal-delay-3">
+        <div class="why-card spotlight reveal reveal-delay-3">
           <span class="wn">04</span>
           <div><h3>A Track Record</h3><p>Alumni now leading in law, journalism, policy, and business.</p></div>
         </div>
@@ -458,7 +521,7 @@
       <span class="eyebrow on-dark reveal">Ready When You Are</span>
       <h2 class="reveal reveal-delay-1">Come make your first argument.</h2>
       <p class="reveal reveal-delay-2">Membership opens every semester. No experience necessary — just an opinion worth defending.</p>
-      <a href="index.html#join" class="btn btn-primary reveal reveal-delay-3"><span>Join the Club</span></a>
+      <a href="form.html" class="btn btn-primary reveal reveal-delay-3"><span>Join the Club</span></a>
     </div>
   </section>
 
@@ -484,7 +547,7 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
-          <li><a href="index.html#join">Join Club</a></li>
+          <li><a href="form.html">Join Club</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -512,6 +575,75 @@
 </footer>
 
 <script>
+  const reduceMotion0 = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  window.addEventListener('load', () => {
+    const pre = document.getElementById('preloader');
+    setTimeout(() => { pre.classList.add('done'); }, reduceMotion0 ? 0 : 400);
+  });
+
+  const progressBar = document.getElementById('scrollProgress');
+  const onScrollProgress = () => {
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+    progressBar.style.width = pct + '%';
+  };
+  document.addEventListener('scroll', onScrollProgress, { passive:true });
+  onScrollProgress();
+
+  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let rx = 0, ry = 0, tx = 0, ty = 0;
+    document.addEventListener('mousemove', (e) => {
+      dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%,-50%)`;
+      tx = e.clientX; ty = e.clientY;
+    });
+    const animRing = () => {
+      rx += (tx - rx) * 0.18; ry += (ty - ry) * 0.18;
+      ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+      requestAnimationFrame(animRing);
+    };
+    animRing();
+    document.querySelectorAll('a, button, .value-chip, .why-card, .split-visual').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+    });
+
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const r = btn.getBoundingClientRect();
+        const mx = e.clientX - r.left - r.width/2;
+        const my = e.clientY - r.top - r.height/2;
+        btn.style.transform = `translate(${mx*0.18}px, ${my*0.35}px)`;
+      });
+      btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+    });
+
+    document.querySelectorAll('.spotlight').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+      });
+    });
+
+    document.querySelectorAll('.tilt').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.setProperty('--ry', (px * 8) + 'deg');
+        card.style.setProperty('--rx', (py * -8) + 'deg');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.setProperty('--rx', '0deg');
+        card.style.setProperty('--ry', '0deg');
+      });
+    });
+  }
+
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
   hamburger.addEventListener('click', () => {
