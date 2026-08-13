@@ -211,15 +211,40 @@
   @media (max-width: 767px){
     .explore-grid{ grid-template-columns:1fr; }
     .carousel3d-stage{ overflow:hidden; }
-    .c3d-lead{ --c3d-w:min(70vw, 220px); --c3d-h:clamp(300px, 58vw, 380px); }
-    .carousel3d.compact{ --c3d-w:min(46vw, 150px); --c3d-h:clamp(230px, 45vw, 280px); }
-    .c3d-nav{ width:44px; height:44px; }
-    .carousel3d.compact .c3d-nav{ width:42px; height:42px; font-size:15px; }
+
+    /* Show the whole photograph instead of cropping it to fill the frame: the frame keeps its
+       premium navy/gold backdrop, and contain lets any source aspect ratio sit inside it intact. */
+    .c3d-frame{ background:
+      radial-gradient(120% 100% at 50% 28%, rgba(229,199,107,0.14), transparent 65%),
+      linear-gradient(160deg, var(--navy-deep), var(--navy)); }
+    .c3d-frame img{ object-fit:contain; object-position:center top; }
+
+    .c3d-lead{ --c3d-w:min(70vw, 220px); }
+    .carousel3d.compact{ --c3d-w:min(46vw, 150px); }
+
+    /* Track height = photo height (from the frame's own 3:4 aspect-ratio) + a fixed allowance for
+       role/name/social-row/side-label. This scales with each carousel's own --c3d-w, so the center
+       card's social icons and counter always have room and never get clipped by the stage's
+       overflow:hidden, at any of the 320–430px widths this site is tested at. */
+    .c3d-lead{ --c3d-h: calc(var(--c3d-w) * 4 / 3 + 196px); }
+    .carousel3d.compact{ --c3d-h: calc(var(--c3d-w) * 4 / 3 + 168px); }
+
+    /* Nav buttons track the photo's vertical center (half the frame height) rather than a fixed
+       38% of the (now taller) track, so they stay beside the face instead of drifting toward the
+       name/social row. */
+    .c3d-nav{ top:calc(var(--c3d-w, 210px) * 0.667); width:44px; height:44px; }
+    .carousel3d.compact .c3d-nav{ width:44px; height:44px; font-size:15px; }
+
+    /* 44px minimum touch targets for the social row, per Apple/WCAG guidance. */
+    .c3d-socials{ gap:10px; }
+    .c3d-socials a{ width:44px; height:44px; }
+    .c3d-socials svg{ width:16px; height:16px; }
+    .carousel3d.compact .c3d-socials{ gap:8px; }
   }
   /* Small mobile: below 480px */
   @media (max-width: 479px){
-    .c3d-lead{ --c3d-w:min(72vw, 230px); --c3d-h:clamp(280px, 62vw, 340px); }
-    .carousel3d.compact{ --c3d-w:min(50vw, 150px); --c3d-h:clamp(210px, 44vw, 250px); }
+    .c3d-lead{ --c3d-w:min(72vw, 230px); }
+    .carousel3d.compact{ --c3d-w:min(50vw, 150px); }
     .c3d-name{ font-size:clamp(19px, 5.6vw, 24px); }
     .carousel3d.compact .c3d-name{ font-size:16px; }
   }
@@ -756,6 +781,22 @@
       ? `<img src="${escapeHTML(member.image)}" alt="${escapeHTML(member.name)}" loading="lazy">`
       : `<div class="initial-fallback">${escapeHTML(initials(member.name))}</div>`;
 
+    // Only build a social link when the underlying data is real (see hasRealValue/hasRealPhone
+    // above). This is what actually fixes the broken/clipped icon row on mobile: previously every
+    // card rendered all three icons even when instagram/linkedin/phone were empty or placeholder
+    // stubs, so the row's true rendered width and content never matched what was designed for.
+    const socialLinks = [];
+    if(hasRealValue(member.instagram)){
+      socialLinks.push(`<a href="${escapeHTML(member.instagram)}" target="_blank" rel="noopener" aria-label="Instagram">${svgIG()}</a>`);
+    }
+    if(hasRealValue(member.linkedin)){
+      socialLinks.push(`<a href="${escapeHTML(member.linkedin)}" target="_blank" rel="noopener" aria-label="LinkedIn">${svgLI()}</a>`);
+    }
+    if(hasRealPhone(member.phone)){
+      socialLinks.push(`<a href="tel:${escapeHTML((member.phone || '').replace(/\s+/g,''))}" aria-label="Call">${svgPhone()}</a>`);
+    }
+    const socialsHTML = socialLinks.length ? `<div class="c3d-socials">${socialLinks.join('')}</div>` : '';
+
     const card = document.createElement('div');
     card.className = 'c3d-card';
     card.setAttribute('role', 'group');
@@ -767,11 +808,7 @@
         <div class="c3d-label">
           <span class="c3d-role">${escapeHTML(member.role || '')}</span>
           <span class="c3d-name">${escapeHTML(member.name || '')}</span>
-          <div class="c3d-socials">
-            <a href="${escapeHTML(member.instagram || '#')}" target="_blank" rel="noopener" aria-label="Instagram">${svgIG()}</a>
-            <a href="${escapeHTML(member.linkedin || '#')}" target="_blank" rel="noopener" aria-label="LinkedIn">${svgLI()}</a>
-            <a href="tel:${escapeHTML((member.phone || '').replace(/\s+/g,''))}" aria-label="Call">${svgPhone()}</a>
-          </div>
+          ${socialsHTML}
         </div>
         <div class="c3d-side-label">${escapeHTML(member.name || '')}</div>
       </div>
