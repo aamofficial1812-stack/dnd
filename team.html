@@ -107,10 +107,12 @@
   .hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
   .hamburger.open span:nth-child(2){ opacity:0; }
   .hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
-  .mobile-menu{ position:fixed; inset:0; background:var(--navy); z-index:99; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:36px; transform:translateY(-100%); transition:transform .55s var(--ease); }
+  .mobile-menu{ position:fixed; inset:0; background:var(--navy); z-index:99; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:clamp(22px,6vh,36px); transform:translateY(-100%); transition:transform .55s var(--ease); overflow-y:auto; padding:100px 24px 40px; }
   .mobile-menu.open{ transform:translateY(0); }
-  .mobile-menu a{ font-family:var(--serif); font-size:34px; color:var(--cream); font-weight:600; }
+  .mobile-menu a{ font-family:var(--serif); font-size:clamp(26px,7vw,34px); color:var(--cream); font-weight:600; position:relative; }
   .mobile-menu a:hover{ color:var(--gold); }
+  .mobile-menu a.active:not(.btn){ color:var(--gold); }
+  .mobile-menu a.active:not(.btn)::after{ content:""; position:absolute; left:50%; bottom:-10px; width:34px; height:2px; background:var(--gold); transform:translateX(-50%); }
 
   .reveal{ opacity:0; transform:translateY(36px); transition:opacity .9s var(--ease), transform .9s var(--ease); }
   .reveal.in{ opacity:1; transform:translateY(0); }
@@ -292,8 +294,7 @@
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html">Home</a>
   <a href="about.html">About</a>
-  <a href="team.html">Team</a>
-  <a href="form.html">Join</a>
+  <a href="team.html" class="active">Team</a>
   <a href="form.html" class="btn btn-primary" style="color:var(--navy-deep);"><span>Join Club</span></a>
 </div>
 
@@ -327,61 +328,61 @@
         { name:"Samiya Khan", role:"President", image:"samiya.png", bio:"Leading the club with vision, purpose, and a passion for meaningful dialogue.", instagram:"https://www.instagram.com/samiya.k456?igsh=N3V1c2xsOGF0endw", linkedin:"https://www.linkedin.com/in/saamiyaakhan", phone:"+91 8591066407" }
       ],
       vicePresidents: [
-        { name:"Nauman Patel", role:"Vice President", image:"nauman.png", bio:"Supporting the club with leadership, collaboration, and a drive to create impactful conversations.", instagram:"nauman_103",  phone:"+91 9833188826" },
-        { name:"Zaid Kazi", role:"Vice President", image:"zaid.png", bio:"Supporting the club with leadership, collaboration, and a drive to create impactful conversations.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" }
+        { name:"Nauman Patel", role:"Vice President", image:"nauman.png", bio:"Supporting the club with leadership, collaboration, and a drive to create impactful conversations.", instagram:"https://www.instagram.com/nauman_103?igsh=MWJ4MjNkMWNsODNndA%3D%3D",  phone:"+91 9833188826" },
+        { name:"Zaid Kazi", role:"Vice President", image:"zaid.png", bio:"Supporting the club with leadership, collaboration, and a drive to create impactful conversations.", instagram:"https://www.instagram.com/zaid.kaxii?igsh=MWJ4MjNkMWNsODNndA%3D%3D", phone:"+91 7738264770" }
       ],
       technicalLead: [
-        { name:"Full Name", role:"Technical Lead", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" }
+        { name:"Ayaan Mistry", role:"Technical Lead", image:"ayaan.jpg", bio:"Driving the club’s digital vision through technology, innovation, and seamless experiences.", instagram:"https://www.instagram.com/ayaan_mistry12?igsh=MWJ4MjNkMWNsODNndA%3D%3D", linkedin:"https://www.linkedin.com/in/ayaan-mistry-573633387?utm_source=share_via&utm_content=profile&utm_medium=member_android", phone:"+91 8451055384" }
       ],
       mediaMarketing: {
         leads: [
-          { name:"Full Name", role:"Media Lead", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" },
-          { name:"Full Name", role:"Marketing Lead", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" }
+          { name:"Mumtarin Idrisi", role:"Media Lead", image:"mumtarin.png", bio:"Creating engaging content and amplifying the club’s voice across every platform.", instagram:"https://www.instagram.com/musk7n__?igsh=cmVxZzYzb2ZzcHNt", linkedin:"https://www.linkedin.com/in/idrisi-mumtarin-5610923a3?utm_source=share_via&utm_content=profile&utm_medium=member_android", phone:"+91 9137475594" },
+          { name:"Full Name", role:"Marketing Lead", image:"zaidp.png", bio:"Building the club’s presence through creative campaigns, outreach, and strategic promotion.", instagram:"https://www.instagram.com/tribromo_aniline?igsh=MXZ1YTRzYjI1cHc2eg%3D%3D", linkedin:"https://www.linkedin.com/in/zaid-ashfak-pansare", phone:"+91 9175416601" }
         ],
         members: [
-          { name:"Full Name", role:"Media & Marketing Team Member", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" },
-          { name:"Full Name", role:"Media & Marketing Team Member", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" },
-          { name:"Full Name", role:"Media & Marketing Team Member", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" }
+          { name:"Rahil Khatik", role:"Media & Marketing Team Member", image:"rahil.png", bio:"Bringing fresh ideas and creative energy to the club’s media and marketing efforts.", instagram:"https://www.instagram.com/rabii_unfiltered?igsh=cmVxZzYzb2ZzcHNt", linkedin:"https://linkedin.com/in/", phone:"+91 7977239198" },
+          { name:"Yadav Snehlata ", role:"Media & Marketing Team Member", image:"sneha.png", bio:"Bringing fresh ideas and creative energy to the club’s media and marketing efforts.", instagram:"https://www.instagram.com/sneha_yaduvanshi____?igsh=MWU4dTQ1a2YyNGVtZA%3D%3D",  phone:"+91 8356075389" },
+          { name:"Sara Shabbir Walile ", role:"Media & Marketing Team Member", image:"sara.png", bio:"Bringing fresh ideas and creative energy to the club’s media and marketing efforts.", instagram:"https://www.instagram.com/r.saru._45._?igsh=cmVxZzYzb2ZzcHNt", linkedin:"https://www.linkedin.com/in/sara-walile-48278a388?utm_source=share_via&utm_content=profile&utm_medium=member_android", phone:"+91 9356318660" }
         ]
       },
       editing: {
         lead: [
-          { name:"Full Name", role:"Editing Team Lead", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" }
+          { name:"Yamana Mahimkar", role:"Editing Team Lead", image:"yamana.png", bio:"Shaping ideas into polished content through precision, creativity, and a sharp eye for detail.", instagram:"https://www.instagram.com/m.yamana.55?igsh=MWU4dTQ1a2YyNGVtZA==", linkedin:"https://www.linkedin.com/in/yamana-mahimkar-9b1710331", phone:"+91 9823745188" }
         ],
         members: [
-          { name:"Full Name", role:"Editing Team Member", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" },
-          { name:"Full Name", role:"Editing Team Member", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" },
-          { name:"Full Name", role:"Editing Team Member", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" }
+          { name:"Abdullah Borkar", role:"Editing Team Member", image:"", bio:"Bringing creativity and precision together to turn ideas into polished, engaging content.", instagram:"https://www.instagram.com/abdullah_abd_10_?igsh=MWU4dTQ1a2YyNGVtZA%3D%3D", linkedin:"https://www.linkedin.com/in/abdullah-borkar-b226643b8", phone:"+91 9820996283" },
+          { name:"MAPKAR SAROSH", role:"Editing Team Member", image:"sarosh.png", bio:"Bringing creativity and precision together to turn ideas into polished, engaging content.", instagram:"https://www.instagram.com/Why.saroshh?igsh=MWU4dTQ1a2YyNGVtZA%3D%3D", linkedin:"https://www.linkedin.com/in/sarosh-mapkar-9686a0345?utm_source=share_via&utm_content=profile&utm_medium=member_android", phone:"+91 8983527873" },
+          { name:"Ansari Naveed ", role:"Editing Team Member", image:"naveed.png", bio:"Bringing creativity and precision together to turn ideas into polished, engaging content.", instagram:"https://www.instagram.com/btwitsnaveed_16?igsh=N3V1c2xsOGF0endw",phone:"+91 9321451268" }
         ]
       },
       design: {
         leads: [
-          { name:"Full Name", role:"Design Team Lead", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" },
-          { name:"Full Name", role:"Design Team Lead", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" }
+          { name:"Madiha Lasne ", role:"Design Team Lead", image:"madiha.png", bio:"Turning ideas into striking visuals that give the club a distinctive creative identity.", instagram:"https://www.instagram.com/mad8haa?igsh=MXZ1YTRzYjI1cHc2eg%3D%3D", linkedin:"https://www.linkedin.com/in/madiha-lasne-597404330", phone:"+91 8446330431" },
+          { name:"Biswajit Parida ", role:"Design Team Lead", image:"biswajit.png", bio:"Turning ideas into striking visuals that give the club a distinctive creative identity.", instagram:"https://www.instagram.com/biswajittparida?igsh=cmVxZzYzb2ZzcHNt", phone:"+91 7977849463" }
         ],
         members: [
-          { name:"Full Name", role:"Design Team Member", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" },
-          { name:"Full Name", role:"Design Team Member", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" }
+          { name:"Shaikh Nashra", role:"Design Team Member", image:"nashra.png", bio:"Bringing fresh creativity and visual detail to every design the club creates.", instagram:"https://www.instagram.com/nashettiee.__?igsh=N3V1c2xsOGF0endw", linkedin:"https://www.linkedin.com/in/nashra-shaikh-827961373?utm_source=share_via&utm_content=profile&utm_medium=member_android", phone:"+91 9619276912" },
+          { name:"Afifa Naik ", role:"Design Team Member", image:"afifa.png", bio:"Bringing fresh creativity and visual detail to every design the club creates.", instagram:"https://www.instagram.com/afifa_naik__?igsh=NmgwYTBoNjFrNWkx", linkedin:"https://www.linkedin.com/in/afifa-naik-65b949399?utm_source=share_via&utm_content=profile&utm_medium=member_android", phone:"+91 8928513184" }
         ]
       },
       sponsorship: {
         lead: [
-          { name:"Full Name", role:"Sponsorship Lead", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" }
+          { name:"Ninjal Pardeshi", role:"Sponsorship Lead", image:"ninjal.png", bio:"Building strong partnerships and securing opportunities that support the club’s growth.", instagram:"https://www.instagram.com/ninjapotassium/", linkedin:"https://www.linkedin.com/in/ninjal-sadanand-pardeshi/", phone:"+91 9969793944" }
         ],
         members: [
-          { name:"Full Name", role:"Sponsorship Team Member", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" }
+          { name:"Insha shaikh", role:"Sponsorship Team Member", image:"insha.png", bio:"Supporting outreach and partnerships to help turn the club’s ideas into impactful initiatives.", instagram:"https://www.instagram.com/_lesinsh_?igsh=NmgwYTBoNjFrNWkx",phone:"+91 9372783690" }
         ]
       },
       treasurer: [
-        { name:"Full Name", role:"Treasurer", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" }
+        { name:"Owais Soudagar ", role:"Treasurer", image:"owais.png", bio:"Managing the club’s finances with accuracy, transparency, and responsible planning.", instagram:"https://www.instagram.com/_owais.s_26?igsh=MWJ4MjNkMWNsODNndA%3D%3D", linkedin:"https://www.linkedin.com/in/owais-soudagar-476965352?utm_source=share_via&utm_content=profile&utm_medium=member_android", phone:"+91 9136011542" }
       ],
       documentation: {
         lead: [
-          { name:"Full Name", role:"Documentation Lead", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" }
+          { name:"Bagdadi Mahek", role:"Documentation Lead", image:"mehek.png", bio:"Organizing and preserving the club’s records with clarity, accuracy, and attention to detail.", instagram:"https://www.instagram.com/_.offxmhk._?igsh=N3V1c2xsOGF0endw", linkedin:"https://www.linkedin.com/in/mahek-bagdadi-baa065351", phone:"+91 9168268876" }
         ],
         members: [
-          { name:"Full Name", role:"Documentation Team Member", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" },
-          { name:"Full Name", role:"Documentation Team Member", image:"", bio:"Short bio placeholder goes here.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" }
+          { name:"Zaid Shaikh ", role:"Documentation Team Member", image:"", bio:"Capturing and maintaining the club’s important moments, records, and achievements.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" },
+          { name:"Sualeha Hasbule", role:"Documentation Team Member", image:"", bio:"Capturing and maintaining the club’s important moments, records, and achievements.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" }
         ]
       }
     };
@@ -394,7 +395,7 @@
       <div class="tier-head reveal">
         <span class="eyebrow on-dark" style="justify-content:center;"><span></span>Leadership</span>
         <h2>Leadership Showcase</h2>
-        <p class="tier-lede">Student Coordinator · President · Vice Presidents · Technical Lead</p>
+        <p class="tier-lede">Student Coordinator · President · Vice Presidents</p>
       </div>
       <div class="carousel3d" data-carousel="leadership" style="--c3d-w:230px; --c3d-h:460px;">
         <div class="carousel3d-stage" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Club leadership">
@@ -407,7 +408,26 @@
     </div>
   </section>
 
-  <!-- 2. Explore By Team -->
+  <!-- 2. Technical Lead (independent, centered showcase) -->
+  <section class="team-section on-dark tech-lead-section">
+    <div class="container">
+      <div class="tier-head reveal">
+        <span class="eyebrow on-dark" style="justify-content:center;"><span></span>Technology</span>
+        <h2>Technical Lead</h2>
+        <p class="tier-lede">The mind behind the club's digital experience.</p>
+      </div>
+      <div class="carousel3d single" data-carousel="technicalLead" style="--c3d-w:230px; --c3d-h:460px;">
+        <div class="carousel3d-stage" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Technical lead">
+          <button class="c3d-nav c3d-prev" type="button" aria-label="Previous">‹</button>
+          <div class="carousel3d-track"></div>
+          <button class="c3d-nav c3d-next" type="button" aria-label="Next">›</button>
+        </div>
+        <div class="c3d-counter"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Explore By Team -->
   <section class="team-section on-dark">
     <div class="container">
       <div class="tier-head reveal">
@@ -614,6 +634,15 @@
     hamburger.setAttribute('aria-expanded', false);
     document.body.style.overflow = '';
   }));
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && mobileMenu.classList.contains('open')){
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', false);
+      document.body.style.overflow = '';
+      hamburger.focus();
+    }
+  });
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const revealEls = document.querySelectorAll('.reveal');
@@ -646,15 +675,38 @@
     return d.innerHTML;
   }
 
+  /* Treat missing values AND known placeholder stubs as empty so we never render a dead/placeholder icon. */
+  const PLACEHOLDER_VALUES = new Set([
+    'https://instagram.com/', 'https://instagram.com', 'http://instagram.com/', 'http://instagram.com',
+    'https://www.instagram.com/', 'https://www.instagram.com',
+    'https://linkedin.com/in/', 'https://linkedin.com/in', 'http://linkedin.com/in/',
+    'https://www.linkedin.com/in/', 'https://www.linkedin.com/in',
+    '#', ''
+  ]);
+  function hasRealValue(val){
+    if(!val) return false;
+    const trimmed = String(val).trim();
+    if(!trimmed) return false;
+    if(PLACEHOLDER_VALUES.has(trimmed)) return false;
+    return true;
+  }
+  function hasRealPhone(val){
+    if(!hasRealValue(val)) return false;
+    // Guard against placeholder digit strings like "+91 00000 00000"
+    const digits = String(val).replace(/\D/g, '');
+    if(!digits || /^0+$/.test(digits)) return false;
+    return true;
+  }
+
   /* ============ 3D CAROUSEL DATA MAPPING ============ */
   // Maps each data-carousel key to the exact TEAM_DATA slices it should render.
   const CAROUSEL_SOURCES = {
     leadership: () => [
       ...(TEAM_DATA.studentCoordinator || []),
       ...(TEAM_DATA.president || []),
-      ...(TEAM_DATA.vicePresidents || []),
-      ...(TEAM_DATA.technicalLead || [])
+      ...(TEAM_DATA.vicePresidents || [])
     ],
+    technicalLead: () => [...(TEAM_DATA.technicalLead || [])],
     media: () => [
       ...((TEAM_DATA.mediaMarketing && TEAM_DATA.mediaMarketing.leads) || []),
       ...((TEAM_DATA.mediaMarketing && TEAM_DATA.mediaMarketing.members) || [])
