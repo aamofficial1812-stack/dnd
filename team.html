@@ -36,7 +36,8 @@
     html{scroll-behavior:auto;}
     *,*::before,*::after{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
   }
-  body{ margin:0; font-family:var(--sans); color:var(--ink); background:var(--cream); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  html{ overflow-x:hidden; width:100%; }
+  body{ margin:0; font-family:var(--sans); color:var(--ink); background:var(--cream); -webkit-font-smoothing:antialiased; overflow-x:hidden; width:100%; max-width:100vw; position:relative; }
   img{max-width:100%; display:block;}
   a{color:inherit; text-decoration:none;}
   button{font-family:inherit; cursor:pointer;}
@@ -156,9 +157,13 @@
   .explore-panel-title{ position:relative; text-align:center; font-family:var(--mono); font-size:12px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold-soft); font-weight:700; margin-bottom:clamp(18px,2.4vw,28px); }
 
   /* ============ 3D CAROUSEL ============ */
-  .carousel3d{ position:relative; }
-  .carousel3d-stage{ position:relative; perspective:1600px; display:flex; align-items:center; justify-content:center; outline:none; }
-  .carousel3d-track{ position:relative; width:100%; height:var(--c3d-h, 420px); transform-style:preserve-3d; }
+  .carousel3d{ position:relative; width:100%; max-width:100%; }
+  .carousel3d-stage{ position:relative; width:100%; max-width:100%; perspective:1600px; display:flex; align-items:center; justify-content:center; outline:none; }
+  .carousel3d-track{ position:relative; width:100%; max-width:100%; height:var(--c3d-h, 420px); transform-style:preserve-3d; }
+  /* Default (desktop) card scale for the two full-size showcases (Leadership + Technical Lead) */
+  .c3d-lead{ --c3d-w:230px; --c3d-h:460px; }
+  /* Default (desktop) card scale for the compact department carousels */
+  .carousel3d.compact{ --c3d-h:300px; }
   .c3d-card{ position:absolute; top:0; left:50%; width:var(--c3d-w, 210px); margin-left:calc(var(--c3d-w, 210px) / -2); transform-style:preserve-3d; transition:transform .8s var(--ease), opacity .8s var(--ease); will-change:transform, opacity; cursor:pointer; }
   .c3d-card.is-center{ cursor:default; }
   .c3d-card-inner{ display:flex; flex-direction:column; align-items:center; gap:10px; }
@@ -196,12 +201,27 @@
   .carousel3d.single .c3d-nav, .carousel3d.single .c3d-counter{ display:none; }
   .carousel3d.single .carousel3d-track{ height:var(--c3d-h, 380px); }
 
-  @media (max-width: 640px){
+  /* ---- Carousel responsive scale (drives JS translate math too, see initCarousel3D) ---- */
+  /* Tablet: 768px - 1199px */
+  @media (max-width: 1199px){
+    .c3d-lead{ --c3d-w:190px; --c3d-h:380px; }
+    .carousel3d.compact{ --c3d-w:130px; --c3d-h:260px; }
+  }
+  /* Mobile: 480px - 767px */
+  @media (max-width: 767px){
     .explore-grid{ grid-template-columns:1fr; }
-    :root{ }
-    .carousel3d{ --c3d-w:150px; }
-    .carousel3d:not(.compact) .carousel3d-track{ height:340px; }
-    .c3d-nav{ width:38px; height:38px; font-size:16px; }
+    .carousel3d-stage{ overflow:hidden; }
+    .c3d-lead{ --c3d-w:min(70vw, 220px); --c3d-h:clamp(300px, 58vw, 380px); }
+    .carousel3d.compact{ --c3d-w:min(46vw, 150px); --c3d-h:clamp(230px, 45vw, 280px); }
+    .c3d-nav{ width:44px; height:44px; }
+    .carousel3d.compact .c3d-nav{ width:42px; height:42px; font-size:15px; }
+  }
+  /* Small mobile: below 480px */
+  @media (max-width: 479px){
+    .c3d-lead{ --c3d-w:min(72vw, 230px); --c3d-h:clamp(280px, 62vw, 340px); }
+    .carousel3d.compact{ --c3d-w:min(50vw, 150px); --c3d-h:clamp(210px, 44vw, 250px); }
+    .c3d-name{ font-size:clamp(19px, 5.6vw, 24px); }
+    .carousel3d.compact .c3d-name{ font-size:16px; }
   }
 
   /* ============ JOIN CTA ============ */
@@ -397,7 +417,7 @@
         <h2>Leadership Showcase</h2>
         <p class="tier-lede">Student Coordinator · President · Vice Presidents</p>
       </div>
-      <div class="carousel3d" data-carousel="leadership" style="--c3d-w:230px; --c3d-h:460px;">
+      <div class="carousel3d c3d-lead" data-carousel="leadership">
         <div class="carousel3d-stage" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Club leadership">
           <button class="c3d-nav c3d-prev" type="button" aria-label="Previous leader">‹</button>
           <div class="carousel3d-track"></div>
@@ -416,7 +436,7 @@
         <h2>Technical Lead</h2>
         <p class="tier-lede">The mind behind the club's digital experience.</p>
       </div>
-      <div class="carousel3d single" data-carousel="technicalLead" style="--c3d-w:230px; --c3d-h:460px;">
+      <div class="carousel3d single c3d-lead" data-carousel="technicalLead">
         <div class="carousel3d-stage" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Technical lead">
           <button class="c3d-nav c3d-prev" type="button" aria-label="Previous">‹</button>
           <div class="carousel3d-track"></div>
@@ -439,7 +459,7 @@
       <div class="explore-grid">
         <div class="explore-panel reveal">
           <div class="explore-panel-title">Media &amp; Marketing</div>
-          <div class="carousel3d compact" data-carousel="media" style="--c3d-h:300px;">
+          <div class="carousel3d compact" data-carousel="media">
             <div class="carousel3d-stage" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Media and Marketing team">
               <button class="c3d-nav c3d-prev" type="button" aria-label="Previous member">‹</button>
               <div class="carousel3d-track"></div>
@@ -451,7 +471,7 @@
 
         <div class="explore-panel reveal">
           <div class="explore-panel-title">Editing Team</div>
-          <div class="carousel3d compact" data-carousel="editing" style="--c3d-h:300px;">
+          <div class="carousel3d compact" data-carousel="editing">
             <div class="carousel3d-stage" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Editing team">
               <button class="c3d-nav c3d-prev" type="button" aria-label="Previous member">‹</button>
               <div class="carousel3d-track"></div>
@@ -463,7 +483,7 @@
 
         <div class="explore-panel reveal">
           <div class="explore-panel-title">Design Team</div>
-          <div class="carousel3d compact" data-carousel="design" style="--c3d-h:300px;">
+          <div class="carousel3d compact" data-carousel="design">
             <div class="carousel3d-stage" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Design team">
               <button class="c3d-nav c3d-prev" type="button" aria-label="Previous member">‹</button>
               <div class="carousel3d-track"></div>
@@ -475,7 +495,7 @@
 
         <div class="explore-panel reveal">
           <div class="explore-panel-title">Sponsorship Team</div>
-          <div class="carousel3d compact" data-carousel="sponsorship" style="--c3d-h:300px;">
+          <div class="carousel3d compact" data-carousel="sponsorship">
             <div class="carousel3d-stage" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Sponsorship team">
               <button class="c3d-nav c3d-prev" type="button" aria-label="Previous member">‹</button>
               <div class="carousel3d-track"></div>
@@ -487,7 +507,7 @@
 
         <div class="explore-panel reveal">
           <div class="explore-panel-title">Treasurer</div>
-          <div class="carousel3d compact single" data-carousel="treasurer" style="--c3d-h:300px;">
+          <div class="carousel3d compact single" data-carousel="treasurer">
             <div class="carousel3d-stage" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Treasurer">
               <button class="c3d-nav c3d-prev" type="button" aria-label="Previous member">‹</button>
               <div class="carousel3d-track"></div>
@@ -499,7 +519,7 @@
 
         <div class="explore-panel reveal">
           <div class="explore-panel-title">Documentation Team</div>
-          <div class="carousel3d compact" data-carousel="documentation" style="--c3d-h:300px;">
+          <div class="carousel3d compact" data-carousel="documentation">
             <div class="carousel3d-stage" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Documentation team">
               <button class="c3d-nav c3d-prev" type="button" aria-label="Previous member">‹</button>
               <div class="carousel3d-track"></div>
@@ -779,16 +799,26 @@
     const counter = root.querySelector('.c3d-counter');
     if(!track || !members.length) return;
 
-    const isCompact = root.classList.contains('compact');
-    const stepX = isCompact ? 118 : 180;
-    const stepZ = isCompact ? 90 : 140;
     const stepRotate = 34;
     const maxVisibleOffset = 2;
+
+    // Translation distances scale with the card's actual rendered width, which is itself
+    // responsive (clamp()/min() driven CSS custom properties). This keeps side cards inside
+    // the viewport at every breakpoint instead of using fixed desktop pixel offsets.
+    let stepX = 140;
+    let stepZ = 90;
+    function recalcSteps(){
+      const sample = track.querySelector('.c3d-card');
+      const w = sample ? sample.getBoundingClientRect().width : parseFloat(getComputedStyle(root).getPropertyValue('--c3d-w')) || 210;
+      stepX = w * 0.78;
+      stepZ = w * 0.6;
+    }
 
     const cards = members.map(buildC3DCard);
     cards.forEach(card => track.appendChild(card));
     const n = cards.length;
     let current = 0;
+    recalcSteps();
 
     function shortestOffset(i){
       let offset = i - current;
@@ -873,6 +903,12 @@
     }, { passive: true });
 
     render();
+
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => { recalcSteps(); render(); }, 120);
+    });
   }
   document.querySelectorAll('.carousel3d[data-carousel]').forEach(initCarousel3D);
 </script>
