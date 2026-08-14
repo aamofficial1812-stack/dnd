@@ -212,26 +212,26 @@
     .explore-grid{ grid-template-columns:1fr; }
     .carousel3d-stage{ overflow:hidden; }
 
-    /* Show the whole photograph instead of cropping it to fill the frame: the frame keeps its
-       premium navy/gold backdrop, and contain lets any source aspect ratio sit inside it intact. */
-    .c3d-frame{ background:
-      radial-gradient(120% 100% at 50% 28%, rgba(229,199,107,0.14), transparent 65%),
-      linear-gradient(160deg, var(--navy-deep), var(--navy)); }
-    .c3d-frame img{ object-fit:contain; object-position:center top; }
+    /* The old fixed 3:4 frame + object-fit:contain combo is what produced the big empty navy
+       rectangle under each photo: the frame box stayed a tall fixed shape no matter what the
+       photo's real proportions were. Instead, the frame now simply wraps the image at its own
+       natural aspect ratio, so the gold border hugs the actual photograph with no dead space,
+       and no part of the photo is ever cropped. Actual on-screen height is then computed in JS
+       (see recalcMobileLayout in initCarousel3D) so the track/nav/counter always fit the real
+       rendered photo instead of a hard-coded guess. */
+    .c3d-frame{ aspect-ratio:auto; height:auto; background:transparent; }
+    .c3d-frame img{ width:100%; height:auto; object-fit:contain; display:block; }
 
     .c3d-lead{ --c3d-w:min(70vw, 220px); }
     .carousel3d.compact{ --c3d-w:min(46vw, 150px); }
 
-    /* Track height = photo height (from the frame's own 3:4 aspect-ratio) + a fixed allowance for
-       role/name/social-row/side-label. This scales with each carousel's own --c3d-w, so the center
-       card's social icons and counter always have room and never get clipped by the stage's
-       overflow:hidden, at any of the 320–430px widths this site is tested at. */
+    /* Fallback track height (used only until JS measures the real content on first paint). */
     .c3d-lead{ --c3d-h: calc(var(--c3d-w) * 4 / 3 + 196px); }
     .carousel3d.compact{ --c3d-h: calc(var(--c3d-w) * 4 / 3 + 168px); }
 
-    /* Nav buttons track the photo's vertical center (half the frame height) rather than a fixed
-       38% of the (now taller) track, so they stay beside the face instead of drifting toward the
-       name/social row. */
+    /* Nav buttons default to the photo's approximate vertical center; JS overrides this per
+       carousel once the actual photo height is known, so they stay beside the face rather than
+       drifting toward the name/social row for tall or short photos. */
     .c3d-nav{ top:calc(var(--c3d-w, 210px) * 0.667); width:44px; height:44px; }
     .carousel3d.compact .c3d-nav{ width:44px; height:44px; font-size:15px; }
 
@@ -792,9 +792,9 @@
     if(hasRealValue(member.linkedin)){
       socialLinks.push(`<a href="${escapeHTML(member.linkedin)}" target="_blank" rel="noopener" aria-label="LinkedIn">${svgLI()}</a>`);
     }
-    if(hasRealPhone(member.phone)){
-      socialLinks.push(`<a href="tel:${escapeHTML((member.phone || '').replace(/\s+/g,''))}" aria-label="Call">${svgPhone()}</a>`);
-    }
+    // Phone numbers/icons are intentionally never rendered in the Team section (privacy
+    // requirement). hasRealPhone/svgPhone are kept as-is so the phone field can still be
+    // used elsewhere if ever needed, but nothing here builds a call link.
     const socialsHTML = socialLinks.length ? `<div class="c3d-socials">${socialLinks.join('')}</div>` : '';
 
     const card = document.createElement('div');
@@ -851,6 +851,47 @@
       stepZ = w * 0.6;
     }
 
+    // On mobile the photo frame no longer has a fixed aspect-ratio (see the 767px media query),
+    // so its rendered height depends on each member's actual photo proportions. This measures the
+    // CENTER card's real, on-screen content height (photo + role/name + social row) once its image
+    // has loaded, and sets it as the track height and nav-button vertical position — so the card is
+    // always exactly as tall as its content, never leaving artificial empty space, and never
+    // clipping the counter or social icons.
+    const mobileQuery = window.matchMedia('(max-width: 767px)');
+    function recalcMobileLayout(){
+      if(!mobileQuery.matches){
+        root.style.removeProperty('--c3d-h');
+        if(prevBtn) prevBtn.style.top = '';
+        if(nextBtn) nextBtn.style.top = '';
+        return;
+      }
+      const centerCard = track.querySelector('.c3d-card.is-center');
+      if(!centerCard) return;
+      const inner = centerCard.querySelector('.c3d-card-inner');
+      const frame = centerCard.querySelector('.c3d-frame');
+      if(!inner || !frame) return;
+
+      const applyMeasurements = () => {
+        const contentH = inner.getBoundingClientRect().height;
+        const frameH = frame.getBoundingClientRect().height;
+        if(contentH > 0){
+          root.style.setProperty('--c3d-h', `${Math.ceil(contentH)}px`);
+        }
+        if(frameH > 0){
+          const navTop = `${Math.round(frameH / 2)}px`;
+          if(prevBtn) prevBtn.style.top = navTop;
+          if(nextBtn) nextBtn.style.top = navTop;
+        }
+      };
+
+      const img = frame.querySelector('img');
+      if(img && !img.complete){
+        img.addEventListener('load', applyMeasurements, { once: true });
+        img.addEventListener('error', applyMeasurements, { once: true });
+      }
+      applyMeasurements();
+    }
+
     const cards = members.map(buildC3DCard);
     cards.forEach(card => track.appendChild(card));
     const n = cards.length;
@@ -896,6 +937,8 @@
       if(counter) counter.textContent = n > 1 ? `${current + 1} / ${n}` : '';
       if(prevBtn) prevBtn.disabled = n <= 1;
       if(nextBtn) nextBtn.disabled = n <= 1;
+
+      recalcMobileLayout();
     }
 
     function goTo(index){
