@@ -175,12 +175,21 @@
   .c3d-socials a{ width:30px; height:30px; border-radius:50%; border:1px solid rgba(229,199,107,0.45); display:flex; align-items:center; justify-content:center; color:var(--gold-soft); transition:all .3s var(--ease); }
   .c3d-socials a:hover{ background:var(--gold); border-color:var(--gold); color:var(--navy-deep); transform:translateY(-2px); }
   .c3d-socials svg{ width:13px; height:13px; fill:currentColor; }
-  .c3d-frame{ position:relative; width:100%; aspect-ratio:3/4; border-radius:4px; overflow:hidden; background:var(--navy-deep); border:1px solid rgba(229,199,107,0.28); box-shadow:0 20px 40px -18px rgba(0,0,0,0.55); transition:box-shadow .6s var(--ease), border-color .6s var(--ease); }
+  /* The frame is intentionally NOT locked to a fixed aspect-ratio (e.g. 3/4) with object-fit:cover.
+     Team photos come in many different proportions (portrait, near-square, landscape), and a fixed
+     crop box is exactly what was cutting off heads/foreheads/shoulders across members. Instead, the
+     frame is only as wide as the card (var(--c3d-w)) and its height is automatic, always matching
+     the photo's own natural aspect ratio at that width — so the ENTIRE photo is always visible, with
+     no cropping and no distortion, at every screen size. This is the single shared rule every member
+     card (leadership, technical lead, and every department) goes through, so fixing it here fixes it
+     for all of them, current and future. Card/track height and nav-button position are then computed
+     in JS (see recalcCardLayout in initCarousel3D) from the real rendered photo, at every breakpoint. */
+  .c3d-frame{ position:relative; width:100%; height:auto; border-radius:4px; overflow:hidden; background:transparent; border:1px solid rgba(229,199,107,0.28); box-shadow:0 20px 40px -18px rgba(0,0,0,0.55); transition:box-shadow .6s var(--ease), border-color .6s var(--ease); }
   .c3d-card.is-center .c3d-frame{ border:1.5px solid var(--gold); box-shadow:0 0 0 1px rgba(229,199,107,0.18), 0 30px 70px -20px rgba(0,0,0,0.65), 0 0 46px -6px rgba(229,199,107,0.35); }
   .c3d-frame::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.55) 100%); }
   .c3d-frame::before{ content:""; position:absolute; inset:7px; border:1px solid rgba(229,199,107,0.35); border-radius:2px; opacity:0; transition:opacity .5s var(--ease); pointer-events:none; z-index:2; }
   .c3d-card.is-center .c3d-frame::before{ opacity:1; }
-  .c3d-frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .c3d-frame img{ width:100%; height:auto; object-fit:contain; display:block; }
   .c3d-frame .initial-fallback{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-family:var(--serif); font-size:15%; font-weight:600; color:var(--gold); background:linear-gradient(160deg, var(--navy-deep), var(--navy)); }
   .c3d-side-label{ margin-top:2px; text-align:center; font-family:var(--mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(240,221,157,0.6); opacity:0; transition:opacity .5s var(--ease) .1s; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; }
   .c3d-card:not(.is-center) .c3d-side-label{ opacity:.85; }
@@ -211,16 +220,6 @@
   @media (max-width: 767px){
     .explore-grid{ grid-template-columns:1fr; }
     .carousel3d-stage{ overflow:hidden; }
-
-    /* The old fixed 3:4 frame + object-fit:contain combo is what produced the big empty navy
-       rectangle under each photo: the frame box stayed a tall fixed shape no matter what the
-       photo's real proportions were. Instead, the frame now simply wraps the image at its own
-       natural aspect ratio, so the gold border hugs the actual photograph with no dead space,
-       and no part of the photo is ever cropped. Actual on-screen height is then computed in JS
-       (see recalcMobileLayout in initCarousel3D) so the track/nav/counter always fit the real
-       rendered photo instead of a hard-coded guess. */
-    .c3d-frame{ aspect-ratio:auto; height:auto; background:transparent; }
-    .c3d-frame img{ width:100%; height:auto; object-fit:contain; display:block; }
 
     .c3d-lead{ --c3d-w:min(70vw, 220px); }
     .carousel3d.compact{ --c3d-w:min(46vw, 150px); }
@@ -426,7 +425,7 @@
           { name:"Bagdadi Mahek", role:"Documentation Lead", image:"mehek.png", bio:"Organizing and preserving the club’s records with clarity, accuracy, and attention to detail.", instagram:"https://www.instagram.com/_.offxmhk._?igsh=N3V1c2xsOGF0endw", linkedin:"https://www.linkedin.com/in/mahek-bagdadi-baa065351", phone:"+91 9168268876" }
         ],
         members: [
-          { name:"Zaid Shaikh ", role:"Documentation Team Member", image:"", bio:"Capturing and maintaining the club’s important moments, records, and achievements.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" },
+          { name:"Zaid Shaikh ", role:"Documentation Team Member", image:"zaids.png", bio:"Capturing and maintaining the club’s important moments, records, and achievements.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" },
           { name:"Sualeha Hasbule", role:"Documentation Team Member", image:"sualeha.png", bio:"Capturing and maintaining the club’s important moments, records, and achievements.", instagram:"https://instagram.com/", linkedin:"https://linkedin.com/in/", phone:"+91 00000 00000" }
         ]
       }
@@ -851,20 +850,13 @@
       stepZ = w * 0.6;
     }
 
-    // On mobile the photo frame no longer has a fixed aspect-ratio (see the 767px media query),
-    // so its rendered height depends on each member's actual photo proportions. This measures the
-    // CENTER card's real, on-screen content height (photo + role/name + social row) once its image
-    // has loaded, and sets it as the track height and nav-button vertical position — so the card is
-    // always exactly as tall as its content, never leaving artificial empty space, and never
-    // clipping the counter or social icons.
-    const mobileQuery = window.matchMedia('(max-width: 767px)');
-    function recalcMobileLayout(){
-      if(!mobileQuery.matches){
-        root.style.removeProperty('--c3d-h');
-        if(prevBtn) prevBtn.style.top = '';
-        if(nextBtn) nextBtn.style.top = '';
-        return;
-      }
+    // The photo frame never has a fixed aspect-ratio (see .c3d-frame above) — its rendered height
+    // depends on each member's actual photo proportions, at every breakpoint, not just mobile. This
+    // measures the CENTER card's real, on-screen content height (photo + role/name + social row)
+    // once its image has loaded, and sets it as the track height and nav-button vertical position —
+    // so the card is always exactly as tall as its content, never leaving artificial empty/cropped
+    // space, and never clipping the photo, counter, or social icons on any screen size.
+    function recalcCardLayout(){
       const centerCard = track.querySelector('.c3d-card.is-center');
       if(!centerCard) return;
       const inner = centerCard.querySelector('.c3d-card-inner');
@@ -938,7 +930,7 @@
       if(prevBtn) prevBtn.disabled = n <= 1;
       if(nextBtn) nextBtn.disabled = n <= 1;
 
-      recalcMobileLayout();
+      recalcCardLayout();
     }
 
     function goTo(index){
