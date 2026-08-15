@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join the Club — Debate &amp; Dialogue Club, AIKTC</title>
+<meta name="description" content="Apply to join the Debate & Dialogue Club at AIKTC. Tell us your name, class, roll number, and which team you'd like to be part of.">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #1B2A5B;
+    --navy-deep: #121f45;
+    --gold: #E5C76B;
+    --gold-soft: #f0dd9d;
+    --cream: #F8F6F1;
+    --ink: #2F3645;
+    --rust: #C14A12;
+    --line: rgba(27,42,91,0.12);
+    --paper: #ffffff;
+
+    --serif: 'Cormorant Garamond', serif;
+    --sans: 'Manrope', sans-serif;
+    --mono: 'Space Grotesk', sans-serif;
+
+    --container: 1240px;
+    --gutter: clamp(24px, 5vw, 80px);
+    --section-pad: clamp(72px, 10vw, 160px);
+    --ease: cubic-bezier(.22,1,.36,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+  }
+  body{ margin:0; font-family:var(--sans); color:var(--ink); background:var(--cream); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  img{max-width:100%; display:block;}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer;}
+  h1,h2,h3,h4{font-family:var(--serif); margin:0; font-weight:600; color:var(--navy); letter-spacing:-0.01em;}
+  p{margin:0;}
+  .container{width:100%; max-width:var(--container); margin-inline:auto; padding-inline:var(--gutter);}
+  ::selection{background:var(--gold); color:var(--navy);}
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{ outline:2px solid var(--rust); outline-offset:4px; border-radius:2px; }
+
+  /* ============ PRELOADER ============ */
+  .preloader{ position:fixed; inset:0; z-index:999; background:var(--navy); display:flex; align-items:center; justify-content:center; transition:opacity .8s var(--ease), visibility .8s var(--ease); }
+  .preloader::before{ content:""; position:absolute; inset:0; background:radial-gradient(600px 400px at 50% 50%, rgba(229,199,107,0.14), transparent 65%); }
+  .preloader.done{ opacity:0; visibility:hidden; pointer-events:none; }
+  .preloader-mark{ position:relative; display:flex; flex-direction:column; align-items:center; gap:18px; }
+  .preloader-mark img{ height:64px; width:auto; animation:pl-pulse 1.6s ease-in-out infinite; }
+  .preloader-bar{ width:160px; height:1px; background:rgba(255,255,255,0.18); overflow:hidden; position:relative; }
+  .preloader-bar::after{ content:""; position:absolute; top:0; left:-40%; width:40%; height:100%; background:var(--gold); animation:pl-sweep 1.1s ease-in-out infinite; }
+  @keyframes pl-pulse{ 0%,100%{ opacity:1; transform:scale(1);} 50%{ opacity:.6; transform:scale(.94);} }
+  @keyframes pl-sweep{ 0%{ left:-40%; } 100%{ left:100%; } }
+
+  /* ============ SCROLL PROGRESS ============ */
+  .scroll-progress{ position:fixed; top:0; left:0; height:2px; width:0%; z-index:200; background:linear-gradient(90deg, var(--gold), var(--rust)); transition:width .1s linear; }
+
+  /* ============ GRAIN ============ */
+  .grain{ position:fixed; inset:0; z-index:150; pointer-events:none; opacity:0.035; mix-blend-mode:overlay; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+  /* ============ CUSTOM CURSOR ============ */
+  @media (hover:hover) and (pointer:fine){
+    .cursor-dot, .cursor-ring{ position:fixed; top:0; left:0; z-index:300; pointer-events:none; transform:translate(-50%,-50%); will-change:transform; }
+    .cursor-dot{ width:6px; height:6px; border-radius:50%; background:var(--gold); }
+    .cursor-ring{ width:36px; height:36px; border-radius:50%; border:1px solid rgba(229,199,107,0.55); transition:width .3s var(--ease), height .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease); }
+    .cursor-ring.hovering{ width:64px; height:64px; background:rgba(229,199,107,0.08); border-color:var(--gold); }
+    body{ cursor:none; }
+    a, button, .team-card, input, textarea{ cursor:none; }
+  }
+  @media (hover:none), (pointer:coarse){ .cursor-dot, .cursor-ring{ display:none; } }
+
+  .eyebrow{ display:inline-flex; align-items:center; gap:12px; font-family:var(--mono); font-size:12.5px; letter-spacing:0.22em; text-transform:uppercase; color:var(--rust); font-weight:600; }
+  .eyebrow::before{content:""; width:26px; height:1px; background:var(--rust);}
+  .eyebrow.on-dark{ color:var(--gold-soft); }
+  .eyebrow.on-dark::before{ background:var(--gold-soft); }
+
+  .btn{ position:relative; display:inline-flex; align-items:center; justify-content:center; gap:10px; font-family:var(--sans); font-weight:600; font-size:15px; padding:16px 34px; border-radius:2px; border:1px solid transparent; transition:transform .45s var(--ease), box-shadow .45s var(--ease), background .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease); overflow:hidden; isolation:isolate; white-space:nowrap; }
+  .btn span{position:relative; z-index:2;}
+  .btn-primary{ background:var(--gold); color:var(--navy-deep); }
+  .btn-primary::before{ content:""; position:absolute; inset:0; background:var(--rust); z-index:1; transform:translateY(101%); transition:transform .45s var(--ease); }
+  .btn-primary:hover::before{transform:translateY(0);}
+  .btn-primary:hover{color:#fff; transform:translateY(-3px); box-shadow:0 16px 30px -12px rgba(193,74,18,.55);}
+  .btn-primary:disabled{ opacity:0.55; pointer-events:none; }
+  .btn-ghost{ background:transparent; color:#fff; border-color:rgba(255,255,255,0.4); }
+  .btn-ghost:hover{ border-color:#fff; background:rgba(255,255,255,0.08); transform:translateY(-3px);}
+
+  .spotlight{ position:relative; }
+  .spotlight::before{ content:""; position:absolute; inset:0; z-index:0; opacity:0; pointer-events:none; background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(229,199,107,0.16), transparent 70%); transition:opacity .4s var(--ease); }
+  .spotlight:hover::before{ opacity:1; }
+  .spotlight > *{ position:relative; z-index:1; }
+
+  /* NAVBAR (shared) */
+  .navbar{ position:fixed; top:0; left:0; right:0; z-index:100; padding:14px 0; background:rgba(248,246,241,0.85); backdrop-filter:blur(18px) saturate(160%); -webkit-backdrop-filter:blur(18px) saturate(160%); box-shadow:0 1px 0 rgba(27,42,91,0.08), 0 20px 40px -30px rgba(27,42,91,0.35); transition:padding .4s var(--ease);}
+  .navbar .container{ display:flex; align-items:center; justify-content:space-between; }
+  .brand{ display:flex; align-items:center; gap:12px; min-width:0; flex-shrink:1; }
+  .brand img{ height:38px; width:auto; flex-shrink:0; }
+  .brand-text{ font-family:var(--serif); font-weight:600; font-size:17px; line-height:1.15; color:var(--navy); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .brand-text small{ display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:0.18em; color:var(--gold); font-weight:600; margin-top:2px; white-space:nowrap;}
+  .nav-links{ display:flex; align-items:center; gap:44px; }
+  .nav-links a:not(.btn){ font-size:14.5px; font-weight:600; color:var(--navy); position:relative; padding:4px 0; }
+  .nav-links a:not(.btn)::after{ content:""; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--gold); transition:width .4s var(--ease); }
+  .nav-links a:not(.btn):hover::after, .nav-links a.active::after{ width:100%; }
+  .nav-right{ display:flex; align-items:center; gap:28px; flex-shrink:0; }
+  .navbar .btn-primary{ padding:12px 26px; font-size:13.5px; }
+  .hamburger{ display:none; flex-direction:column; gap:5px; width:26px; background:none; border:none; padding:8px; flex-shrink:0; }
+  .hamburger span{ display:block; height:2px; width:100%; background:var(--navy); transition:all .35s var(--ease); }
+  .hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2){ opacity:0; }
+  .hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+  .mobile-menu{ position:fixed; inset:0; background:var(--navy); z-index:99; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:clamp(22px,6vh,36px); transform:translateY(-100%); transition:transform .55s var(--ease); overflow-y:auto; padding:100px 24px 40px; }
+  .mobile-menu.open{ transform:translateY(0); }
+  .mobile-menu a{ font-family:var(--serif); font-size:clamp(26px,7vw,34px); color:var(--cream); font-weight:600; position:relative; }
+  .mobile-menu a:hover{ color:var(--gold); }
+  .mobile-menu a.active:not(.btn){ color:var(--gold); }
+  .mobile-menu a.active:not(.btn)::after{ content:""; position:absolute; left:50%; bottom:-10px; width:34px; height:2px; background:var(--gold); transform:translateX(-50%); }
+
+  .reveal{ opacity:0; transform:translateY(36px); transition:opacity .9s var(--ease), transform .9s var(--ease); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  .reveal-delay-1.in{ transition-delay:.1s; }
+  .reveal-delay-2.in{ transition-delay:.2s; }
+  .reveal-delay-3.in{ transition-delay:.3s; }
+
+  /* ============ PAGE HERO ============ */
+  .page-hero{ position:relative; padding:clamp(170px,19vw,220px) 0 clamp(60px,8vw,90px); background:var(--navy); color:#fff; overflow:hidden; }
+  .page-hero::before{ content:""; position:absolute; inset:0; background-image: repeating-linear-gradient(115deg, rgba(229,199,107,0.07) 0 2px, transparent 2px 40px); }
+  .page-hero::after{ content:""; position:absolute; inset:0; background: radial-gradient(900px 500px at 90% 0%, rgba(229,199,107,0.18), transparent 60%), radial-gradient(700px 500px at 5% 100%, rgba(193,74,18,0.18), transparent 55%); }
+  .page-hero .container{ position:relative; }
+  .breadcrumb{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; color:rgba(248,246,241,0.6); margin-bottom:22px; text-transform:uppercase; }
+  .breadcrumb a{ color:rgba(248,246,241,0.85); }
+  .breadcrumb a:hover{ color:var(--gold); }
+  .page-hero h1{ color:#fff; font-size:clamp(42px,7vw,84px); line-height:1.02; max-width:780px; }
+  .page-hero p{ margin-top:20px; max-width:540px; color:rgba(248,246,241,0.78); font-size:16.5px; line-height:1.7;}
+
+  /* ============ FORM SECTION ============ */
+  .form-section{ padding:var(--section-pad) 0; background:var(--cream); }
+  .form-wrap{ display:grid; grid-template-columns:0.85fr 1.15fr; gap:clamp(40px,6vw,90px); align-items:flex-start; }
+
+  .form-aside{ position:sticky; top:120px; }
+  .form-aside .eyebrow{ margin-bottom:18px; }
+  .form-aside h2{ font-size:clamp(28px,3.4vw,42px); line-height:1.12; margin-bottom:18px; }
+  .form-aside p{ font-size:15.5px; line-height:1.8; color:var(--ink); opacity:0.78; max-width:400px; margin-bottom:28px; }
+  .aside-steps{ display:flex; flex-direction:column; gap:20px; }
+  .aside-step{ display:flex; gap:16px; align-items:flex-start; }
+  .aside-step .as-num{ font-family:var(--mono); font-size:12px; font-weight:700; color:var(--rust); width:26px; height:26px; border:1px solid var(--rust); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .aside-step h4{ font-size:16px; margin-bottom:3px; }
+  .aside-step p{ font-size:13.5px; line-height:1.6; opacity:0.7; margin-bottom:0; }
+
+  .form-card{ background:var(--paper); border:1px solid var(--line); padding:clamp(28px,4vw,52px); position:relative; }
+  .form-card::before{ content:""; position:absolute; top:0; left:0; width:64px; height:3px; background:var(--rust); }
+
+  .field{ margin-bottom:26px; }
+  .field label{ display:block; font-family:var(--mono); font-size:11.5px; letter-spacing:0.12em; text-transform:uppercase; color:var(--navy); font-weight:700; margin-bottom:10px; }
+  .field .req{ color:var(--rust); }
+  .field input[type="text"], .field input[type="email"], .field input[type="tel"], .field textarea{
+    width:100%; border:none; border-bottom:1.5px solid var(--line); background:transparent;
+    padding:12px 2px; font-family:var(--sans); font-size:16px; color:var(--ink);
+    transition:border-color .35s var(--ease);
+  }
+  .field textarea{ resize:vertical; min-height:90px; font-family:var(--sans); }
+  .field input:focus, .field textarea:focus{ border-color:var(--gold); outline:none; }
+  .field input::placeholder, .field textarea::placeholder{ color:rgba(47,54,69,0.35); }
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .hint{ font-size:12px; color:var(--ink); opacity:0.5; margin-top:6px; }
+
+  .team-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:6px; }
+  .team-card{ position:relative; }
+  .team-card input{ position:absolute; opacity:0; inset:0; width:100%; height:100%; margin:0; cursor:pointer; }
+  .team-card .tc-inner{
+    border:1.5px solid var(--line); padding:20px 18px; height:100%;
+    display:flex; flex-direction:column; gap:10px; transition:border-color .3s var(--ease), background .3s var(--ease), transform .3s var(--ease);
+  }
+  .team-card svg{ width:26px; height:26px; color:var(--navy); transition:color .3s var(--ease); }
+  .team-card h4{ font-size:16.5px; color:var(--navy); transition:color .3s var(--ease); }
+  .team-card p{ font-size:12.5px; line-height:1.55; color:var(--ink); opacity:0.68; }
+  .team-card:hover .tc-inner{ border-color:var(--gold); transform:translateY(-2px); }
+  .team-card input:checked ~ .tc-inner{ border-color:var(--rust); background:rgba(193,74,18,0.05); }
+  .team-card input:checked ~ .tc-inner svg{ color:var(--rust); }
+  .team-card input:checked ~ .tc-inner h4{ color:var(--rust); }
+  .team-card input:checked ~ .tc-inner::after{ content:"✓ Selected"; font-family:var(--mono); font-size:10px; letter-spacing:0.1em; color:var(--rust); font-weight:700; text-transform:uppercase; margin-top:2px; }
+  .team-card input:focus-visible ~ .tc-inner{ outline:2px solid var(--rust); outline-offset:2px; }
+
+  .form-footer{ display:flex; align-items:center; justify-content:space-between; gap:20px; margin-top:36px; flex-wrap:wrap; }
+  .form-note{ font-size:12.5px; color:var(--ink); opacity:0.55; max-width:280px; line-height:1.6; }
+  .error-msg{ color:var(--rust); font-size:12.5px; margin-top:8px; display:none; font-weight:600; }
+  .error-msg.show{ display:block; }
+
+  /* Success state */
+  .success-card{ display:none; text-align:center; padding:60px 30px; }
+  .success-card.show{ display:block; }
+  .success-card .s-icon{ width:64px; height:64px; margin:0 auto 24px; border-radius:50%; background:var(--navy); display:flex; align-items:center; justify-content:center; }
+  .success-card .s-icon svg{ width:28px; height:28px; color:var(--gold); }
+  .success-card h3{ font-size:28px; margin-bottom:12px; }
+  .success-card p{ font-size:15px; line-height:1.7; color:var(--ink); opacity:0.75; max-width:380px; margin-inline:auto; margin-bottom:26px;}
+  .form-card.submitted .field, .form-card.submitted .team-grid, .form-card.submitted .form-footer, .form-card.submitted h3.form-title{ display:none; }
+
+  /* FOOTER (shared) */
+  footer.site-footer{ background:var(--navy); color:var(--cream); padding-top:clamp(60px,8vw,100px); }
+  .footer-top{ display:grid; grid-template-columns:1.3fr 0.85fr 0.95fr 0.85fr 0.95fr; gap:clamp(28px,4vw,48px); padding-bottom:clamp(44px,6vw,60px); border-bottom:1px solid rgba(255,255,255,0.12);}
+  .footer-brand{ display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+  .footer-brand img{ height:46px; }
+  .footer-brand-text{ font-family:var(--serif); font-size:18px; font-weight:600; }
+  .footer-brand-text small{ display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:0.18em; color:var(--gold); margin-top:2px;}
+  .footer-col p{ font-size:14.5px; line-height:1.8; color:rgba(248,246,241,0.68); max-width:280px;}
+  .footer-col h4{ font-family:var(--mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); margin-bottom:22px; font-weight:600;}
+  .footer-col ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px;}
+  .footer-col a{ font-size:14.5px; color:rgba(248,246,241,0.78); transition:color .3s var(--ease), padding-left .3s var(--ease); }
+  .footer-col a:hover{ color:var(--gold); padding-left:6px; }
+  .footer-social{ display:flex; gap:12px; margin-top:22px;}
+  .footer-social a{ width:38px; height:38px; border:1px solid rgba(255,255,255,0.22); border-radius:50%; display:flex; align-items:center; justify-content:center; transition:all .35s var(--ease); }
+  .footer-social a:hover{ background:var(--gold); border-color:var(--gold); transform:translateY(-4px); }
+  .footer-social svg{ width:16px; height:16px; fill:currentColor; }
+  .footer-contacts{ display:flex; flex-direction:column; gap:12px; margin-top:18px; padding-top:18px; border-top:1px solid rgba(255,255,255,0.12); }
+  .fc-item{ display:flex; flex-direction:column; gap:2px; }
+  .fc-role{ font-family:var(--mono); font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(248,246,241,0.5); }
+  .fc-item a{ font-family:var(--mono); font-size:14px; letter-spacing:0.02em; color:rgba(248,246,241,0.85); transition:color .3s var(--ease); }
+  .fc-item a:hover{ color:var(--gold); }
+  @media (min-width:480px) and (max-width:1024px){
+    .footer-contacts{ display:grid; grid-template-columns:1fr 1fr; gap:16px 20px; }
+  }
+  .footer-bottom{ display:flex; justify-content:space-between; align-items:center; padding:26px 0; flex-wrap:wrap; gap:12px; font-size:13px; color:rgba(248,246,241,0.55); }
+  .footer-bottom a{ color:rgba(248,246,241,0.55); }
+  .footer-bottom a:hover{ color:var(--gold); }
+
+  /* AIKTCMUN footer callout */
+  .footer-mun{ border-left:1px solid rgba(229,199,107,0.3); padding-left:22px; }
+  .footer-mun p{ margin-bottom:18px; }
+  .footer-mun-link{
+    display:inline-flex; align-items:center; gap:9px;
+    font-family:var(--mono); font-size:12px; letter-spacing:0.12em; text-transform:uppercase; font-weight:700;
+    color:var(--gold); padding-bottom:9px; border-bottom:1px solid rgba(229,199,107,0.4);
+    transition:gap .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease);
+  }
+  .footer-mun-link svg{ width:13px; height:13px; transition:transform .35s var(--ease); }
+  .footer-mun-link:hover{ gap:13px; color:#fff; border-color:#fff; }
+  .footer-mun-link:hover svg{ transform:translate(2px,-2px); }
+  @media (max-width:1024px){ .footer-mun{ border-left:none; padding-left:0; border-top:1px solid rgba(229,199,107,0.3); padding-top:22px; } }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 1024px){
+    .nav-links{ display:none; }
+    .hamburger{ display:flex; }
+    .form-wrap{ grid-template-columns:1fr; }
+    .form-aside{ position:static; max-width:560px; }
+    .footer-top{ grid-template-columns:1fr 1fr; row-gap:40px; }
+    .footer-col:first-child{ grid-column:1 / -1; }
+  }
+  @media (max-width: 640px){
+    .field-row{ grid-template-columns:1fr; gap:0; }
+    .team-grid{ grid-template-columns:1fr; }
+    .form-footer{ flex-direction:column; align-items:stretch; }
+    .form-footer .btn{ width:100%; }
+    .footer-top{ grid-template-columns:1fr; row-gap:40px; padding-bottom:44px; }
+    .footer-bottom{ flex-direction:column; align-items:flex-start; }
+  }
+  @media (max-width: 560px){
+    .navbar{ padding:12px 0; }
+    .nav-right{ gap:14px; }
+    .navbar .btn-primary{ padding:10px 16px; font-size:12.5px; }
+  }
+  @media (max-width: 430px){
+    .navbar .nav-right .btn-primary{ display:none; }
+  }
+  @media (max-width: 380px){
+    .brand-text small{ display:none; }
+    .brand-text{ font-size:15px; }
+  }
+  @media (max-width: 330px){
+    .brand-text{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader-mark">
+    <img src="logo.png" alt="">
+    <div class="preloader-bar"></div>
+  </div>
+</div>
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+<header class="navbar" id="navbar">
+  <div class="container">
+    <a href="index.html" class="brand" aria-label="Debate & Dialogue Club home">
+      <img src="logo.png" alt="Debate & Dialogue Club, AIKTC logo">
+      <span class="brand-text">Debate &amp; Dialogue<small>AIKTC · EST. CLUB</small></span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="team.html">Team</a>
+      <a href="events.html">Events</a>
+    </nav>
+    <div class="nav-right">
+      <a href="form.html" class="btn btn-primary"><span>Join Club</span></a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="team.html">Team</a>
+  <a href="events.html">Events</a>
+  <a href="form.html" class="btn btn-primary" style="color:var(--navy-deep);"><span>Join Club</span></a>
+</div>
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a> / Join</div>
+      <h1>Take the floor.</h1>
+      <p>Fill in your details below and tell us which team you'd like to argue, design, build, or write for. We'll be in touch before the next session.</p>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <div class="container">
+      <div class="form-wrap">
+
+        <aside class="form-aside reveal">
+          <span class="eyebrow">Membership Application</span>
+          <h2>A few details, then you're on the roster.</h2>
+          <p>No prior debating experience needed — just tell us who you are and where you'd like to contribute.</p>
+          <div class="aside-steps">
+            <div class="aside-step">
+              <span class="as-num">1</span>
+              <div><h4>Your details</h4><p>Name, class, and roll number for our records.</p></div>
+            </div>
+            <div class="aside-step">
+              <span class="as-num">2</span>
+              <div><h4>Pick a team</h4><p>Choose the crew where your skills fit best.</p></div>
+            </div>
+            <div class="aside-step">
+              <span class="as-num">3</span>
+              <div><h4>Submit</h4><p>We'll reach out with next steps before the next meet.</p></div>
+            </div>
+          </div>
+        </aside>
+
+        <form class="form-card reveal reveal-delay-1" id="joinForm" novalidate>
+          <h3 class="form-title" style="font-size:22px; margin-bottom:30px;">Membership Details</h3>
+
+          <div class="field">
+            <label for="fullName">Full Name <span class="req">*</span></label>
+            <input type="text" id="fullName" name="fullName" placeholder="e.g. Ayesha Khan" required autocomplete="name">
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="className">Class / Year <span class="req">*</span></label>
+              <input type="text" id="className" name="className" placeholder="e.g. SE Computer" required>
+            </div>
+            <div class="field">
+              <label for="rollNo">Roll Number <span class="req">*</span></label>
+              <input type="text" id="rollNo" name="rollNo" placeholder="e.g. 42" required>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@aiktc.ac.in" autocomplete="email">
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" name="phone" placeholder="+91 00000 00000" autocomplete="tel">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Which team are you interested in? <span class="req">*</span></label>
+            <div class="team-grid" role="radiogroup" aria-label="Team preference">
+              <label class="team-card">
+                <input type="radio" name="team" value="Media & Marketing" required>
+                <span class="tc-inner">
+                  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="10" width="36" height="24" rx="3"/><circle cx="16" cy="20" r="3.5"/><path d="M6 30l9-8 7 6 8-9 12 11"/></svg>
+                  <h4>Media &amp; Marketing</h4>
+                  <p>Photography, social media, and telling the club's story.</p>
+                </span>
+              </label>
+              <label class="team-card">
+                <input type="radio" name="team" value="Design">
+                <span class="tc-inner">
+                  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 40l3-10L30 11l7 7-19 19z"/><path d="M27 14l7 7"/><path d="M6 42h12"/></svg>
+                  <h4>Design</h4>
+                  <p>Posters, branding, and visual identity for every event.</p>
+                </span>
+              </label>
+              <label class="team-card">
+                <input type="radio" name="team" value="Technical">
+                <span class="tc-inner">
+                  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="10" width="34" height="22" rx="2"/><path d="M17 40h14"/><path d="M24 32v8"/><path d="M17 20l4 4-4 4"/><path d="M27 28h5"/></svg>
+                  <h4>Technical</h4>
+                  <p>AV setup, live scoring, streaming, and event tech.</p>
+                </span>
+              </label>
+              <label class="team-card">
+                <input type="radio" name="team" value="Documentation">
+                <span class="tc-inner">
+                  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 6h16l8 8v28a2 2 0 0 1-2 2H13a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M29 6v8h8"/><path d="M16 26h16M16 32h16M16 20h8"/></svg>
+                  <h4>Documentation</h4>
+                  <p>Minutes, records, reports, and archiving every session.</p>
+                </span>
+              </label>
+            </div>
+            <span class="error-msg" id="teamError">Please select a team.</span>
+          </div>
+
+          <div class="field">
+            <label for="notes">Anything else we should know?</label>
+            <textarea id="notes" name="notes" placeholder="Prior experience, availability, or a question for us — optional."></textarea>
+          </div>
+
+          <div class="form-footer">
+            <span class="form-note">By submitting, you agree to be contacted by the Debate &amp; Dialogue Club regarding your application.</span>
+            <button type="submit" class="btn btn-primary" id="submitBtn"><span>Submit Application</span></button>
+          </div>
+
+          <div class="success-card" id="successCard">
+            <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <h3>Application received.</h3>
+            <p id="successText">Thank you for applying — we've opened your email client with your details ready to send. Once it's sent, we'll be in touch soon.</p>
+            <a href="index.html" class="btn btn-primary"><span>Back to Home</span></a>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <img src="logo.png" alt="Debate & Dialogue Club logo">
+          <span class="footer-brand-text">Debate &amp; Dialogue<small>AIKTC</small></span>
+        </div>
+        <p>A student society dedicated to the art of argument, the discipline of dialogue, and the making of confident leaders.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="form.html">Join Club</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="about.html#story">Our Story</a></li>
+          <li><a href="about.html#timeline">Timeline</a></li>
+          <li><a href="about.html#values">Core Values</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:debateclub@aiktc.ac.in">debateclub@aiktc.ac.in</a></li>
+          <li><a href="#">AIKTC Campus, Panvel</a></li>
+        </ul>
+        <div class="footer-contacts" aria-label="Club contact numbers">
+          <div class="fc-item"><span class="fc-role">Student Coordinator</span><a href="tel:+918850172216">+91 88501 72216</a></div>
+          <div class="fc-item"><span class="fc-role">President</span><a href="tel:+918591066407">+91 85910 66407</a></div>
+          <div class="fc-item"><span class="fc-role">Vice President</span><a href="tel:+919833188826">+91 98331 88826</a></div>
+          <div class="fc-item"><span class="fc-role">Vice President</span><a href="tel:+917738264770">+91 77382 64770</a></div>
+        </div>
+        <div class="footer-social" aria-label="Social media links">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2c2.7 0 3.05.01 4.12.06 1.06.05 1.79.22 2.43.47a4.9 4.9 0 0 1 1.77 1.15 4.9 4.9 0 0 1 1.15 1.77c.25.64.42 1.37.47 2.43C21.99 8.95 22 9.3 22 12s-.01 3.05-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 0 1-1.15 1.77 4.9 4.9 0 0 1-1.77 1.15c-.64.25-1.37.42-2.43.47C15.05 21.99 14.7 22 12 22s-3.05-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15.05 2 14.7 2 12s.01-3.05.06-4.12c.05-1.06.22-1.79.47-2.43a4.9 4.9 0 0 1 1.15-1.77A4.9 4.9 0 0 1 5.45 2.53c.64-.25 1.37-.42 2.43-.47C8.95 2.01 9.3 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.4-8.4a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4z"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3.5a1.96 1.96 0 1 0 0 3.92 1.96 1.96 0 0 0 0-3.92zM20.44 20h-3.37v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V20H9.68V8.5h3.24v1.57h.05c.45-.85 1.56-1.75 3.21-1.75 3.43 0 4.26 2.26 4.26 5.2V20z"/></svg></a>
+          <a href="#" aria-label="X (Twitter)"><svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.5 8.6L23.3 22h-6.9l-5.4-6.9L4.7 22H1.6l8.1-9.2L1 2h7l4.9 6.3L18.9 2zm-1.2 18h1.9L7.4 3.9H5.4L17.7 20z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col footer-mun">
+        <h4>AIKTCMUN</h4>
+        <p>Our flagship Model United Nations conference.</p>
+        <a href="https://aiktcmun.vercel.app/" target="_blank" rel="noopener noreferrer" class="footer-mun-link">
+          <span>AIKTCMUN</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Debate &amp; Dialogue Club, AIKTC. All rights reserved.</span>
+      <span>Crafted with conviction.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const reduceMotion0 = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  window.addEventListener('load', () => {
+    const pre = document.getElementById('preloader');
+    setTimeout(() => { pre.classList.add('done'); }, reduceMotion0 ? 0 : 400);
+  });
+
+  const progressBar = document.getElementById('scrollProgress');
+  const onScrollProgress = () => {
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+    progressBar.style.width = pct + '%';
+  };
+  document.addEventListener('scroll', onScrollProgress, { passive:true });
+  onScrollProgress();
+
+  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let rx = 0, ry = 0, tx = 0, ty = 0;
+    document.addEventListener('mousemove', (e) => {
+      dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%,-50%)`;
+      tx = e.clientX; ty = e.clientY;
+    });
+    const animRing = () => {
+      rx += (tx - rx) * 0.18; ry += (ty - ry) * 0.18;
+      ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+      requestAnimationFrame(animRing);
+    };
+    animRing();
+    document.querySelectorAll('a, button, .team-card').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+    });
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const r = btn.getBoundingClientRect();
+        const mx = e.clientX - r.left - r.width/2;
+        const my = e.clientY - r.top - r.height/2;
+        btn.style.transform = `translate(${mx*0.18}px, ${my*0.35}px)`;
+      });
+      btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+    });
+  }
+
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', false);
+    document.body.style.overflow = '';
+  }));
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && mobileMenu.classList.contains('open')){
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', false);
+      document.body.style.overflow = '';
+      hamburger.focus();
+    }
+  });
+
+  const revealEls = document.querySelectorAll('.reveal');
+  if(reduceMotion0){
+    revealEls.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  // Form handling
+  const form = document.getElementById('joinForm');
+  const teamError = document.getElementById('teamError');
+  const successCard = document.getElementById('successCard');
+  const successText = document.getElementById('successText');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    teamError.classList.remove('show');
+
+    if(!form.checkValidity()){
+      form.reportValidity();
+      return;
+    }
+    const teamChosen = form.querySelector('input[name="team"]:checked');
+    if(!teamChosen){
+      teamError.classList.add('show');
+      return;
+    }
+
+    const data = {
+      fullName: form.fullName.value.trim(),
+      className: form.className.value.trim(),
+      rollNo: form.rollNo.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim(),
+      team: teamChosen.value,
+      notes: form.notes.value.trim()
+    };
+
+    const subject = encodeURIComponent(`Club Membership Application — ${data.fullName}`);
+    const bodyLines = [
+      `Name: ${data.fullName}`,
+      `Class / Year: ${data.className}`,
+      `Roll Number: ${data.rollNo}`,
+      data.email ? `Email: ${data.email}` : null,
+      data.phone ? `Phone: ${data.phone}` : null,
+      `Team Preference: ${data.team}`,
+      data.notes ? `Notes: ${data.notes}` : null
+    ].filter(Boolean);
+    const body = encodeURIComponent(bodyLines.join('\n'));
+    const mailtoLink = `mailto:debateclub@aiktc.ac.in?subject=${subject}&body=${body}`;
+
+    form.classList.add('submitted');
+    successText.textContent = `Thanks, ${data.fullName.split(' ')[0]} — we've opened your email client with your details for the ${data.team} team. Send it along and we'll be in touch soon.`;
+    successCard.classList.add('show');
+
+    window.location.href = mailtoLink;
+  });
+</script>
+</body>
+</html>
