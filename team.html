@@ -242,10 +242,54 @@
   }
   /* Small mobile: below 480px */
   @media (max-width: 479px){
-    .c3d-lead{ --c3d-w:min(72vw, 230px); }
-    .carousel3d.compact{ --c3d-w:min(50vw, 150px); }
     .c3d-name{ font-size:clamp(19px, 5.6vw, 24px); }
     .carousel3d.compact .c3d-name{ font-size:16px; }
+  }
+
+  /* ============ MOBILE: DEDICATED CARD LAYOUT (below 600px) ============
+     Below 600px this replaces the shrunk desktop 3D carousel with a plain,
+     normal-document-flow card: the active member's full photo, role, name
+     and socials stacked vertically, with prev/next simply flanking it in a
+     flex row. Previous/next preview cards are removed from layout entirely
+     (display:none) instead of being scaled down, so they can never crowd or
+     visually interfere with the active photo. Because this uses ordinary
+     block/flex flow instead of absolute positioning + a JS-measured pixel
+     height, the card is always exactly as tall as its real content —
+     including the full photo — automatically, on the very first paint, for
+     every member, with no possibility of a leftover empty box underneath. */
+  @media (max-width: 599px){
+    .carousel3d-stage{ flex-direction:row; align-items:center; gap:6px; overflow:visible; }
+    .carousel3d-track{ position:static; width:auto; max-width:100%; height:auto; flex:1 1 auto; min-width:0; }
+
+    .c3d-card{ display:none; }
+    .c3d-card.is-center{
+      display:block;
+      position:static;
+      top:auto; left:auto;
+      width:100%;
+      margin:0 auto;
+      /* JS still writes a 3D transform/opacity to this element for the desktop carousel math;
+         !important is required here to reliably win over that inline style on mobile. */
+      transform:none !important;
+      opacity:1 !important;
+    }
+    .c3d-side-label{ display:none; }
+
+    .c3d-lead{ --c3d-w:min(84vw, 320px); }
+    .carousel3d.compact{ --c3d-w:min(74vw, 290px); }
+
+    .c3d-nav{
+      position:static;
+      top:auto;
+      flex:0 0 auto;
+      width:40px; height:40px;
+      transform:none !important;
+    }
+    .c3d-nav:hover{ transform:scale(1.06) !important; }
+    .carousel3d.compact .c3d-nav{ width:40px; height:40px; }
+
+    .c3d-name{ font-size:clamp(20px, 6.2vw, 26px); }
+    .carousel3d.compact .c3d-name{ font-size:18px; }
   }
 
   /* ============ JOIN CTA ============ */
