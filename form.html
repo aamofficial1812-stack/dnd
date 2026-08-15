@@ -201,7 +201,7 @@
 
   /* FOOTER (shared) */
   footer.site-footer{ background:var(--navy); color:var(--cream); padding-top:clamp(60px,8vw,100px); }
-  .footer-top{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:48px; padding-bottom:60px; border-bottom:1px solid rgba(255,255,255,0.12);}
+  .footer-top{ display:grid; grid-template-columns:1.3fr 0.85fr 0.95fr 0.85fr 0.95fr; gap:clamp(28px,4vw,48px); padding-bottom:clamp(44px,6vw,60px); border-bottom:1px solid rgba(255,255,255,0.12);}
   .footer-brand{ display:flex; align-items:center; gap:12px; margin-bottom:18px; }
   .footer-brand img{ height:46px; }
   .footer-brand-text{ font-family:var(--serif); font-size:18px; font-weight:600; }
@@ -219,6 +219,20 @@
   .footer-bottom a{ color:rgba(248,246,241,0.55); }
   .footer-bottom a:hover{ color:var(--gold); }
 
+  /* AIKTCMUN footer callout */
+  .footer-mun{ border-left:1px solid rgba(229,199,107,0.3); padding-left:22px; }
+  .footer-mun p{ margin-bottom:18px; }
+  .footer-mun-link{
+    display:inline-flex; align-items:center; gap:9px;
+    font-family:var(--mono); font-size:12px; letter-spacing:0.12em; text-transform:uppercase; font-weight:700;
+    color:var(--gold); padding-bottom:9px; border-bottom:1px solid rgba(229,199,107,0.4);
+    transition:gap .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease);
+  }
+  .footer-mun-link svg{ width:13px; height:13px; transition:transform .35s var(--ease); }
+  .footer-mun-link:hover{ gap:13px; color:#fff; border-color:#fff; }
+  .footer-mun-link:hover svg{ transform:translate(2px,-2px); }
+  @media (max-width:1024px){ .footer-mun{ border-left:none; padding-left:0; border-top:1px solid rgba(229,199,107,0.3); padding-top:22px; } }
+
   /* ============ RESPONSIVE ============ */
   @media (max-width: 1024px){
     .nav-links{ display:none; }
@@ -226,13 +240,14 @@
     .form-wrap{ grid-template-columns:1fr; }
     .form-aside{ position:static; max-width:560px; }
     .footer-top{ grid-template-columns:1fr 1fr; row-gap:40px; }
+    .footer-col:first-child{ grid-column:1 / -1; }
   }
   @media (max-width: 640px){
     .field-row{ grid-template-columns:1fr; gap:0; }
     .team-grid{ grid-template-columns:1fr; }
     .form-footer{ flex-direction:column; align-items:stretch; }
     .form-footer .btn{ width:100%; }
-    .footer-top{ grid-template-columns:1fr; }
+    .footer-top{ grid-template-columns:1fr; row-gap:40px; padding-bottom:44px; }
     .footer-bottom{ flex-direction:column; align-items:flex-start; }
   }
   @media (max-width: 560px){
@@ -428,26 +443,14 @@
           <span class="footer-brand-text">Debate &amp; Dialogue<small>AIKTC</small></span>
         </div>
         <p>A student society dedicated to the art of argument, the discipline of dialogue, and the making of confident leaders.</p>
-        <div class="footer-social" aria-label="Social media links">
-          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2c2.7 0 3.05.01 4.12.06 1.06.05 1.79.22 2.43.47a4.9 4.9 0 0 1 1.77 1.15 4.9 4.9 0 0 1 1.15 1.77c.25.64.42 1.37.47 2.43C21.99 8.95 22 9.3 22 12s-.01 3.05-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 0 1-1.15 1.77 4.9 4.9 0 0 1-1.77 1.15c-.64.25-1.37.42-2.43.47C15.05 21.99 14.7 22 12 22s-3.05-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15.05 2 14.7 2 12s.01-3.05.06-4.12c.05-1.06.22-1.79.47-2.43a4.9 4.9 0 0 1 1.15-1.77A4.9 4.9 0 0 1 5.45 2.53c.64-.25 1.37-.42 2.43-.47C8.95 2.01 9.3 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.4-8.4a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4z"/></svg></a>
-          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3.5a1.96 1.96 0 1 0 0 3.92 1.96 1.96 0 0 0 0-3.92zM20.44 20h-3.37v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V20H9.68V8.5h3.24v1.57h.05c.45-.85 1.56-1.75 3.21-1.75 3.43 0 4.26 2.26 4.26 5.2V20z"/></svg></a>
-          <a href="#" aria-label="X (Twitter)"><svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.5 8.6L23.3 22h-6.9l-5.4-6.9L4.7 22H1.6l8.1-9.2L1 2h7l4.9 6.3L18.9 2zm-1.2 18h1.9L7.4 3.9H5.4L17.7 20z"/></svg></a>
-        </div>
       </div>
       <div class="footer-col">
         <h4>Quick Links</h4>
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
+          <li><a href="team.html">Team</a></li>
           <li><a href="form.html">Join Club</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="mailto:debateclub@aiktc.ac.in">debateclub@aiktc.ac.in</a></li>
-          <li><a href="tel:+910000000000">+91 00000 00000</a></li>
-          <li><a href="#">AIKTC Campus, Panvel</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -457,6 +460,27 @@
           <li><a href="about.html#timeline">Timeline</a></li>
           <li><a href="about.html#values">Core Values</a></li>
         </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:debateclub@aiktc.ac.in">debateclub@aiktc.ac.in</a></li>
+          <li><a href="tel:+910000000000">+91 00000 00000</a></li>
+          <li><a href="#">AIKTC Campus, Panvel</a></li>
+        </ul>
+        <div class="footer-social" aria-label="Social media links">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2c2.7 0 3.05.01 4.12.06 1.06.05 1.79.22 2.43.47a4.9 4.9 0 0 1 1.77 1.15 4.9 4.9 0 0 1 1.15 1.77c.25.64.42 1.37.47 2.43C21.99 8.95 22 9.3 22 12s-.01 3.05-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 0 1-1.15 1.77 4.9 4.9 0 0 1-1.77 1.15c-.64.25-1.37.42-2.43.47C15.05 21.99 14.7 22 12 22s-3.05-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15.05 2 14.7 2 12s.01-3.05.06-4.12c.05-1.06.22-1.79.47-2.43a4.9 4.9 0 0 1 1.15-1.77A4.9 4.9 0 0 1 5.45 2.53c.64-.25 1.37-.42 2.43-.47C8.95 2.01 9.3 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.4-8.4a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4z"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3.5a1.96 1.96 0 1 0 0 3.92 1.96 1.96 0 0 0 0-3.92zM20.44 20h-3.37v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V20H9.68V8.5h3.24v1.57h.05c.45-.85 1.56-1.75 3.21-1.75 3.43 0 4.26 2.26 4.26 5.2V20z"/></svg></a>
+          <a href="#" aria-label="X (Twitter)"><svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.5 8.6L23.3 22h-6.9l-5.4-6.9L4.7 22H1.6l8.1-9.2L1 2h7l4.9 6.3L18.9 2zm-1.2 18h1.9L7.4 3.9H5.4L17.7 20z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col footer-mun">
+        <h4>AIKTCMUN</h4>
+        <p>Our flagship Model United Nations conference.</p>
+        <a href="https://aiktcmun.vercel.app/" target="_blank" rel="noopener noreferrer" class="footer-mun-link">
+          <span>AIKTCMUN</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg>
+        </a>
       </div>
     </div>
     <div class="footer-bottom">
